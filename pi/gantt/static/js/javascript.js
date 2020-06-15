@@ -1311,6 +1311,7 @@ function expandeTrf(nomeBtn){
    }else{
        document.getElementById('trf_cadastradas_prj'+divideBtn+'').remove() //CASO TENHA CONTEÚDO NA DIV, ELE É ELIMINADO. ISSO FOI FEITO PARA CRIAR O RECUO.
        add_prj_menu_esquerdo();//ADICIONA NOVAMENTE A DIV DO PROJETO
+       getAllProjects();
    }
 }
 /*///////////////////////////////////////////////////////////////////////////////////////*/
@@ -2722,26 +2723,96 @@ function menuDropdown_menusuperior() {
 //////////////////////////////////////////////////
 
 /*JSON PARA CARREGAR GRÁFICO DE GANTT*/
-
-function carregaGantt(){
-        vetor_gantt = [];
-        for(i=0;i<vetor_projeto.length;i++){ //SELECIONA O VETOR PROJETO COM AS INFORMAÇÕES EQUIVALENTES À TABELA PROJETO
-             buscaCodProjeto = vetor_projeto[i][0]; //BUSCA O CÓDIGO UTILIZANDO A VARREDURA COM FOR
-            for(x = 0; x < vetor_tarefa.length;x++){ // FAZ A VARREDURA NAS TAREFAS CADASTRADAS EQUIVALENTE A TABELA TAREFAS
-            
-            if(buscaCodProjeto == vetor_tarefa[x][7]){ // VERIFICA SE O CÓDIGO DO PROJETO É IGUAL AO COD DO PROJETO NA TABELA TAREFA
+function ganttProjetos(){
+      
+    urlGetProjeto = 'http://localhost:8000/project/?format=json'
+    vetor_projetoGantt = [];
+    xhrGetProjeto = new XMLHttpRequest();
+    
+    jsonProjetosGantt = '';
+    xhrGetProjeto.open('GET', urlGetProjeto, true);
+    xhrGetProjeto.onreadystatechange = function(){
+        if(xhrGetProjeto.readyState == 4){
+            if(xhrGetProjeto.status == 200){
+                jsonProjetosGantt = (JSON.parse(xhrGetProjeto.responseText));
                 
-                //x[i].style.backgroundColor = "red";
-                addVetor = ["Task "+x,vetor_tarefa[x][1],vetor_tarefa[x][2],vetor_tarefa[x][3], vetor_projeto[i][5]];//CRIA VETOR COM INFORMAÇÕES NECESSÁRIAS PARA CARREGAR O GANTT 
-                vetor_gantt.push(addVetor);//ADICIONA AO VETOR                     
+                
+            }else if(xhrGetProjeto.status == 404){
+
+            }
         }      
+        carregaGantt(jsonProjetosGantt, null);
+        
+    }
+    xhrGetProjeto.send();
+    ganttTarefas();
+}
+
+function ganttTarefas(){
+   
+    
+    urlGetTarefa = 'http://localhost:8000/task/?format=json';
+    
+    vetor_tarefaGantt = [];
+    xhrGetTarefa = new XMLHttpRequest();
+    
+    jsonTarefasGantt = '';
+    xhrGetTarefa.open('GET', urlGetTarefa, true);
+    xhrGetTarefa.onreadystatechange = function(){
+        if(xhrGetTarefa.readyState == 4){
+            if(xhrGetTarefa.status == 200){
+                jsonTarefasGantt = (JSON.parse(xhrGetTarefa.responseText));
+               
+               
+            }else if(xhrGetTarefa.status == 404){
+
+            }
+        }      
+        carregaGantt(null, jsonTarefasGantt);
+        
+    }
+    xhrGetTarefa.send();
+   
+}
+
+recebe_projetoGantt = [];
+recebe_tarefaGantt = []
+function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
+        vetor_gantt = [];
+
+        if(jsonProjetosGantt != null){
+            recebe_projetoGantt = jsonProjetosGantt;
         }
-   jsonGantt();//CARREGA FUNCTION DA JSON DO GANTT PARA CRIAÇÃO DO JSON
-}
-}
+        if(jsonTarefasGantt != null){
+            recebe_tarefaGantt = jsonTarefasGantt;
+        }
+       
+        console.log(recebe_projetoGantt);
+        console.log(recebe_tarefaGantt);
+
+        tasks = []; //PREPARO DE VETOR PARA RECEBER JSON
+    
+        for(i = 0; i< recebe_tarefaGantt.length;i++){ //FAZ A VARREDURA NO VETOR PARA CRIAR JSON
+            tasks.push({ //CARREGA O JSON COM AS INFORMAÇÕES NECESSÁRIAS PARA CARREGAR O GRÁFICO GANTT
+                'id': 'Task'+recebe_tarefaGantt[i]['trf_id'],
+                'name': recebe_tarefaGantt[i]['trf_name'],
+                'start': recebe_tarefaGantt[i]['trf_datainicial'],
+                'end': recebe_tarefaGantt[i]['trf_datafinal'],
+                'progress': 20,       
+                'custom_class': 'tcolor'                     
+            });
+        }
+        console.log("TASKS: "+tasks+""); //TESTE DE INTEGRIDADE
+       gantt = new Gantt("#gantt", tasks); //ENVIO DE DADOS PARA O GRÁFICO GANTT
+
+
+
+
+    }
 
 function jsonGantt(){
     tasks = []; //PREPARO DE VETOR PARA RECEBER JSON
+    
     for(i = 0; i< vetor_gantt.length;i++){ //FAZ A VARREDURA NO VETOR PARA CRIAR JSON
         tasks.push({ //CARREGA O JSON COM AS INFORMAÇÕES NECESSÁRIAS PARA CARREGAR O GRÁFICO GANTT
             'id': vetor_gantt[i][0],
