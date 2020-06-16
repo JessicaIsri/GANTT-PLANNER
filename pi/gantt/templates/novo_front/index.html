@@ -3,14 +3,17 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-	<meta charset="utf-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
 	<title>PI - PHPYTHON - GANTT</title>	
 	<link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">
     
     
       <script type="text/javascript" src="{% static 'js/frappe-gantt.min.js' %}"></script>
-     <script type="text/javascript" src="{% static 'js/javascript.js' %}"></script>
-   
+      <script type="text/javascript" src="{% static 'js/dialog-polyfill.js' %}"></script>
+         <script type="text/javascript" src="{% static 'js/javascript.js' %}"></script>
+     
     </head>
 <body>
 	<div id="top" class="boxShadow1">
@@ -161,7 +164,7 @@
             
      <!------------------------------------------------------------->
     <!--- CADASTRO DE PESSOAS -->
-    <dialog id="abreCadastroPessoas" class="abreCadastro"> 
+    <dialog id="abreCadastroPessoas" class="abreCadastro" role="dialog"> 
          <div id="bloco_superior" class="boxShadow1">
                 <button id="btn_fechar" class="btn_shadow2" onclick="fecharCadastroPessoa()">[X]Fechar</button>
              <h1 class="styleWord1">Cadastro de Pessoas</h1>        </div>

@@ -1,8 +1,11 @@
+
+
 /*WINDOW.ONLOAD*/
 
 window.onload = function(){
     getAllProjects();
     getAllTasks();
+    
 }
 
 
@@ -179,7 +182,8 @@ function deletePessoa(){
     xhrDeletePessoa = new XMLHttpRequest();
     xhrDeletePessoa.open("DELETE", urlDeletePessoa, true);
     xhrDeletePessoa.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhrDeletePessoa.setRequestHeader("X-CSRFToken", csrftoken)
+    xhrDeletePessoa.setRequestHeader("X-CSRFToken", csrftoken);
+    
     vetor_pessoa = [];
 
     xhrDeletePessoa.onload = function () {
@@ -209,6 +213,7 @@ function clicaPessoas(){
     document.getElementById("menu_superior").classList.remove("show");   
     codPessoaAtual = 0;
     dialogCadastro = document.getElementById("abreCadastroPessoas");
+    dialogPolyfill.registerDialog(dialogCadastro);
     dialogCadastro.showModal();
  
     urlAbrePessoa = 'http://localhost:8000/person/?format=json'
