@@ -66,3 +66,60 @@ function dadosTarefa(IdBtn){
   xhrGetTarefas.send();
 
 }
+
+
+/**INFORMAÇÕES DE PROJETOS MENU LATERAL ESQUERDO - AO CLICAR EM BOTÃO DE CADA TAREFA */
+
+
+function dadosProjeto(IdBtn){
+  divideBtn = IdBtn.substr(7);
+  
+  
+
+  xhrGetDadosProjeto = new XMLHttpRequest();
+
+  xhrGetDadosProjeto.open('GET', URLGETPROJETOS, true);
+
+  xhrGetDadosProjeto.onload = function(){
+    if(xhrGetDadosProjeto.readyState == 4){
+      if(xhrGetDadosProjeto.status == 200){
+
+        json = (JSON.parse(xhrGetDadosProjeto.responseText));
+
+        for(i =0; i<json.length;i++){
+          
+          if(json[i]['prj_id'] == divideBtn){
+            
+            dt_inicio = json[i]['prj_datainicio'];
+            dt_prazo = json[i]['prj_prazoentrega'];
+            
+
+            split_dt_prazo = dt_prazo.split('-');
+            reverse_dt_prazo = split_dt_prazo.reverse();
+            join_dt_prazo = reverse_dt_prazo.join('-');
+
+            split_dt_inicial= dt_inicio.split('-');
+            reverse_dt_inicial = split_dt_inicial.reverse();
+            join_dt_inicial = reverse_dt_inicial.join('-');
+
+            
+            
+
+            document.getElementById('dt_prazo').innerHTML = join_dt_prazo;
+            document.getElementById('dt_inicial').innerHTML = join_dt_inicial;
+            document.getElementById('dt_final').innerHTML = '----';
+
+
+          }
+
+        }
+
+        
+      }
+    }
+
+
+  }
+  xhrGetDadosProjeto.send();
+
+}
