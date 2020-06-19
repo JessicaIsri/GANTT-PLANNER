@@ -7,6 +7,9 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets
 from .serializers import ProjectSerializer, TaskSerializer, PersonSerializer, DistributeSerializer
 
+#
+from rest_framework.views import APIView
+#
 
 # Create your views here.
 def index_page(request):
@@ -140,21 +143,25 @@ def save_dist(request):
     return redirect('home')
 
 
-class ProjectsViewSet(viewsets.ModelViewSet):
+class ProjectsViewSet(viewsets.ModelViewSet, APIView):
     queryset = tb_Projeto.objects.all()
     serializer_class = ProjectSerializer
+    permission_classes = ()
 
 
-class TaskViewSet(viewsets.ModelViewSet):
+class TaskViewSet(viewsets.ModelViewSet, APIView):
     queryset = tb_Tarefa.objects.all()
     serializer_class = TaskSerializer
+    permission_classes = ()
 
 
-class PersonViewSet(viewsets.ModelViewSet):
+class PersonViewSet(viewsets.ModelViewSet, APIView):
     queryset = tb_Pessoa.objects.all()
     serializer_class = PersonSerializer
+    permission_classes = ()
 
 
-class DistributeViewSet(viewsets.ModelViewSet):
+class DistributeViewSet(viewsets.ModelViewSet, APIView):
     queryset = tb_Dev_Trf.objects.all()
     serializer_class = DistributeSerializer
+    permission_classes = ()

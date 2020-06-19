@@ -11,10 +11,11 @@
     
     
       <script type="text/javascript" src="{% static 'js/frappe-gantt.min.js' %}"></script>
-      <script type="text/javascript" src="{% static 'js/dialog-polyfill.js' %}"></script>
-         <script type="text/javascript" src="{% static 'js/javascript.js' %}"></script>
-     
-    </head>
+      <script type="text/javascript" src="{% static 'js/dialog-polyfill.js' %}"></script>  
+         <script type="text/javascript" src="{% static 'js/pi_cadastros.js' %}"></script>
+         <script type="text/javascript" src="{% static 'js/pi_view.js' %}"></script>
+         <script type="text/javascript" src="{% static 'js/pi_gantt.js' %}"></script>
+        </head>
 <body>
 	<div id="top" class="boxShadow1">
        <div class="dropdown_menusuperior">
@@ -42,7 +43,7 @@
               
         
          
-          <img id="imgbtn_pessoas" src="{% static 'images/img_pessoas.png' %}"  class="dropbtn_pessoas">
+          <img id="imgbtn_pessoas" src="{% static 'images/img_pessoas.png' %}" onclick="clicaDistribuicao()" class="dropbtn_pessoas">
               
         
         <img id="imgbtn_download" src="{% static 'images/img_download.png' %}">
@@ -86,10 +87,13 @@
                     <div id="datas_list" class="boxShadow1"> 
                         <br>
                         <label class="styleWord1">PRAZO: </label>
+                        <label id="dt_prazo" class="styleWord1"></label>
                         <br><br>
                         <label class="styleWord1">INICIO:</label>
+                        <label id="dt_inicial" class="styleWord1"></label>
                         <br><br>
                         <label class="styleWord1">FINAL:</label>
+                        <label id="dt_final" class="styleWord1"></label>
                         
                     </div>
                 </div>
@@ -264,7 +268,7 @@
     
     <dialog id="distribuiPessoas" class="abreCadastro"> 
          <div id="bloco_superior" class="boxShadow1">
-                <button id="btn_fechar" class="btn_shadow2" onclick="fecharDistribuicaoPessoa()">[X]Fechar</button>
+                <button id="btn_fechar" class="btn_shadow2" onclick="fecharCadastroDistribuicao()">[X]Fechar</button>
              <h1 class="styleWord1">Distribuição Pessoas </h1>       
         </div>
         <br><br>
@@ -277,19 +281,19 @@
                   <datalist id="listaProjetos_distribuicao">
                       
                   </datalist>
-                  <label id="id_prjDistr">TESTE</label>
+                  <label id="id_prjDistr">0</label>
                <br>
             <label for="listaTarefa">Selecione a Tarefa: <input autocomplete="off" disabled="true" id="listaTarefa" type="text" list="listaTarefa_distribuicao" name="fk_trf_id" oninput="carregaDatalistPessoas_distribuicao()"></label>
                   <datalist id="listaTarefa_distribuicao">
                       
                   </datalist>
-                  <label id="id_trfDistr">TESTE</label>
+                  <label id="id_trfDistr">0</label>
                <br>
             <label for="listaPessoa">Selecione a Pessoa: <input autocomplete="off" disabled="true" id="listaPessoa" type="text" list="listaPessoa_distribuicao" name="fk_pes_id"></label>
                   <datalist id="listaPessoa_distribuicao">
                       
                   </datalist>
-                  <label id="id_pesDistr">TESTE</label>
+                  <label id="id_pesDistr">0</label>
                <br>
                <button id="btn_novadistribuicao" type="submit" class="btn_shadow2" onclick="novaDistribuicao()">Novo</button>       
                <button id="btn_salvardistribuicao" type="submit" class="btn_shadow2" onclick="postDistribuicao()">Gravar</button>
