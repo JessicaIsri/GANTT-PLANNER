@@ -277,13 +277,13 @@
             <button type="button" id="codAnteriorDistribuicao" class="btn_shadow1_1" onclick="recuarCodDistribuicao()"></button>
                  <button type="button" id="codPosteriorDistribuicao" class="btn_shadow1" onclick="avancarCodDistribuicao()"></button>
                 <br><br>
-              <label for="selecionaProjeto_distribuicao">Selecione o projeto: <input autocomplete="off" id="selecionaProjeto_distribuicao" type="text" disabled="true" list="listaProjetos_distribuicao" oninput="carregaDataListTarefasDistribuicao()"></label>
+              <label for="selecionaProjeto_distribuicao">Selecione o projeto: <input autocomplete="off" id="selecionaProjeto_distribuicao" type="text" disabled="true" list="listaProjetos_distribuicao" onselect="dt_projetos_distribuicao();" onblur="dt_projetos_distribuicao();" onclick="value=''"></label>
                   <datalist id="listaProjetos_distribuicao">
                       
                   </datalist>
                   <label id="id_prjDistr">0</label>
                <br>
-            <label for="listaTarefa">Selecione a Tarefa: <input autocomplete="off" disabled="true" id="listaTarefa" type="text" list="listaTarefa_distribuicao" name="fk_trf_id" oninput="carregaDatalistPessoas_distribuicao()"></label>
+            <label for="listaTarefa">Selecione a Tarefa: <input autocomplete="off" disabled="true" id="listaTarefa" type="text" list="listaTarefa_distribuicao" name="fk_trf_id" onselect="dt_tarefas_distribuicao();" onfocus="dt_pessoas_distribuicao();"></label>
                   <datalist id="listaTarefa_distribuicao">
                       
                   </datalist>

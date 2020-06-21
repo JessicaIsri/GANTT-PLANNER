@@ -1,3 +1,6 @@
+/**ATENÇÃO!!!!!*/
+
+/**ESTE ARQUIVO JAVASCRIPT FOI PROJETADO PARA TRATAR APENAS AÇÕES VISUAIS DA APLICAÇÃO*/
 
 
 /*MENU DROPDOWN BTN_menusuperior*/////////////////////////////

@@ -1,4 +1,9 @@
-//////////////////////////////////////////////////
+/**ATENÇÃO!!!!!*/
+
+/**ESTE ARQUIVO JAVASCRIPT FOI PROJETADO PARA TRATAR APENAS GRÁFICO DO GANTT*/
+
+
+
 
 /*JSON PARA CARREGAR GRÁFICO DE GANTT*/
 function ganttProjetos(){

@@ -1,3 +1,9 @@
+/**ATENÇÃO!!!!!*/
+
+/**ESTE ARQUIVO JAVASCRIPT FOI PROJETADO PARA TRATAR APENAS CADASTROS*/
+
+
+
 /*WINDOW.ONLOAD*/
 
 window.onload = function(){
@@ -20,7 +26,7 @@ URLGETPROJETOS = 'http://localhost:8000/project/';
 //**CADASTRO DE TAREFAS*////
 URLGETTAREFAS = 'http://localhost:8000/task/';
 //**CADASTRO DE DISTRIBUICAO DE PESSOAS EM TAREFAS*////
-//URLGETDISTRIBUICAO = 'http://localhost:8000/distribute/';
+URLGETDISTRIBUICAO = 'http://localhost:8000/distribute/';
 
 
 
@@ -2431,10 +2437,10 @@ function deleteTarefa(){
 
 ////DATALIST
 function dt_projetos_distribuicao(){
-    
+    document.getElementById('listaTarefa').value = '';
 
     xhr_dt_projetos_distribuicao = new XMLHttpRequest();
-    vetor_DatalistProjetos = [];
+    vetor_dt_projetos_distribuicao = [];
     xhr_dt_projetos_distribuicao.open("GET", URLGETPROJETOS, true);
     xhr_dt_projetos_distribuicao.onreadystatechange = function(){
         if(xhr_dt_projetos_distribuicao.readyState == 4){
@@ -2445,12 +2451,13 @@ function dt_projetos_distribuicao(){
                     document.getElementById("listaProjetos_distribuicao").innerHTML += "<option value='"+json[i]['prj_nome']+"'>";
                     
                     linha = [json[i]['prj_id'], json[i]['prj_nome']];
-                    vetor_DatalistProjetos.push(linha);
+                    vetor_dt_projetos_distribuicao.push(linha);
                     
                     
                 }
-                outputDatalistProjetos(vetor_DatalistProjetos);
-                outputDatalistTarefas(vetor_DatalistProjetos, null);
+                outputDatalistProjetos(vetor_dt_projetos_distribuicao);
+                
+                
                
         }else if(xhr_dt_projetos_distribuicao.status == 404){}
     }
@@ -2462,27 +2469,28 @@ xhr_dt_projetos_distribuicao.send();
 
 
 
-function outputDatalistProjetos(vetor_DatalistProjetos)
+function outputDatalistProjetos(vetor_dt_projetos_distribuicao)
 {
+    
     nomeprojeto = document.getElementById("selecionaProjeto_distribuicao").value;
     
-    for(i = 0; i<vetor_DatalistProjetos.length;i++){
+    for(i = 0; i<vetor_dt_projetos_distribuicao.length;i++){
         
-        if(nomeprojeto == vetor_DatalistProjetos[i][1]){
-           
-            document.getElementById("id_prj").innerHTML = ""+vetor_DatalistProjetos[i][0]+"";
+        if(nomeprojeto == vetor_dt_projetos_distribuicao[i][1]){
+            
+            document.getElementById("id_prjDistr").innerHTML = ""+vetor_dt_projetos_distribuicao[i][0]+"";
         }
 
     }
-
-   
-   
+    
+    dt_tarefas_distribuicao();
+    
 }
 
 function dt_tarefas_distribuicao(){
     
 xhr_dt_tarefas_distribuicao = new XMLHttpRequest();
-vetor_tarefas = [];
+vetor_tarefas_distr = [];
 xhr_dt_tarefas_distribuicao.open("GET", URLGETTAREFAS, true);
 xhr_dt_tarefas_distribuicao.onreadystatechange = function(){
     if(xhr_dt_tarefas_distribuicao.readyState == 4){
@@ -2492,11 +2500,41 @@ xhr_dt_tarefas_distribuicao.onreadystatechange = function(){
             for(i = 0; i<json.length; i++){
                
                 linha = [json[i]['fk_prj_id'],json[i]['trf_id'], json[i]['trf_name']];
-                vetor_tarefas.push(linha);
+                vetor_tarefas_distr.push(linha);
                 
                 
             }
-            outputDatalistTarefas(null, vetor_tarefas);
+
+                id_prjDistr = document.getElementById("id_prjDistr").innerHTML;
+                
+                //nomeInterdependencia = document.getElementById("interdependencia").value;
+                document.getElementById("listaTarefa_distribuicao").innerHTML = '';
+                for(i = 0; i<vetor_tarefas_distr.length;i++){
+                    
+                        if(id_prjDistr == vetor_tarefas_distr[i][0]){
+                            
+                            document.getElementById("listaTarefa_distribuicao").innerHTML += "<option value='"+vetor_tarefas_distr[i][2]+"'>";
+                            console.log("<option value='"+vetor_tarefas_distr[i][2]+"'>");
+                        }
+
+                       
+                            
+                }
+                nome_tarefa = document.getElementById("listaTarefa").value;
+                for(i = 0; i<vetor_tarefas_distr.length;i++){
+                    
+                    
+                        
+                    if(nome_tarefa == vetor_tarefas_distr[i][2]){
+                        console.log(nome_tarefa);
+                        document.getElementById("id_trfDistr").innerHTML = ""+vetor_tarefas_distr[i][1]+"";
+                    }               
+                        
+            }
+
+               
+            
+         
            
            
     }else if(xhr_dt_tarefas_distribuicao.status == 404){}
@@ -2506,57 +2544,14 @@ xhr_dt_tarefas_distribuicao.send();
 
 }
 
-recebe_projetos = [];
-vetor_tarefas = []
-function outputDatalistTarefas(vetor_projetos, vetor_tarefas)
-{
-    
-    vetor_trfcadastrados = [];
-    if(vetor_projetos != null){
-        recebe_projetos = vetor_projetos;
-    }
-    if(vetor_tarefas != null){
-        recebe_tarefas= vetor_tarefas;
-    }
-
-    
-
-
-    id_prjDistr = document.getElementById("id_prjDistr").innerHTML;
-    
-//nomeInterdependencia = document.getElementById("interdependencia").value;
-
-for(i = 0; i<recebe_projetos.length;i++){
-    document.getElementById("listaTarefa_distribuicao").innerHTML = '';
-    for(x=0 ; x<recebe_tarefas.length;x++){
-
-        if(id_prjDistr == recebe_tarefas[x][0]){
-
-            document.getElementById("listaTarefa_distribuicao").innerHTML += "<option value='"+recebe_tarefas[x][2]+"'>";
-       
-        }
-    }          
-}
-
-nometarefa = document.getElementById("listaTarefa").value;
-
-for(i=0;i<recebe_tarefas.length;i++){
-    if(nomeinterdependencia == recebe_tarefas[i][2]){
-           
-        document.getElementById("id_trfDistr").innerHTML = ""+recebe_tarefas[i][1]+"";
-    }
-}
-
-
-}
 
 function dt_pessoas_distribuicao(){
     
 
     xhr_dt_pessoas_distribuicao = new XMLHttpRequest();
-    vetor_pessoas = [];
+    
     document.getElementById("listaPessoa_distribuicao").innerHTML = '';
-    xhr_dt_pessoas_distribuicao.open("GET", URLGETTAREFAS, true);
+    xhr_dt_pessoas_distribuicao.open("GET", URLGETPESSOAS, true);
     xhr_dt_pessoas_distribuicao.onreadystatechange = function(){
         if(xhr_dt_pessoas_distribuicao.readyState == 4){
             if(xhr_dt_pessoas_distribuicao.status == 200){
@@ -2643,6 +2638,8 @@ function getAllTasks_Distribuicao(){
     xhrgetAllTasks_Distribuicao.send();
 }
 
+
+
 function getDistribuicao(){
    codDistribuicao = document.getElementById('codDistribuicao').value;
     if(codDistribuicao == "undefined"){
@@ -2710,8 +2707,8 @@ function postDistribuicao(){
     }
     xhrPostDistribuicao.send(JSON.stringify({
          'pes_trf_id': codPesTrf,
-         'fk_trf_id': codTarefaDistr, 
-         'fk_pes_id': codPessoaDistr
+         'fk_pes_id': codPessoaDistr,
+         'fk_trf_id': codTarefaDistr       
         }));
          
         desabilitaCamposDistribuicao();
@@ -2751,8 +2748,8 @@ function putDistribuicao(){
      }
     xhrPutDistribuicao.send(JSON.stringify({
         'pes_trf_id': codPesTrf,
-         'fk_trf_id': codTarefaDistr, 
-         'fk_pes_id': codPessoaDistr
+        'fk_pes_id': codPessoaDistr,
+         'fk_trf_id': codTarefaDistr 
        }));
 
     mudaBotao =  document.getElementById("btn_atualizarCadasDistribuicao");
@@ -2830,6 +2827,7 @@ function clicaDistribuicao(){
     xhrAbreDistribuicao.send();
     
     dt_projetos_distribuicao();
+  
     habilitaAvancoCodDistribuicao();
     habilitaRecuoCodDistribuicao();
     desabilitaBtnCancelarDistribuicao();
@@ -2867,7 +2865,7 @@ function novaDistribuicao(){
         }
         document.getElementById("codDistribuicao").value = codDistribuicao;
     }
-    
+    xhrNovaDistribuicao.send();
 }
 
 habilitaCamposDistribuicao();
@@ -2879,7 +2877,7 @@ desabilitaRecuoCodDistribuicao();
 limparCamposCadasDistribuicao();
 desabilitaBtnExcluirDistribuicao();
 desabilitaBtnAtualizarDistribuicao();
-xhrNovaDistribuicao.send();
+
 }
 
 function cancelarCadasDistribuicao(){
@@ -3005,34 +3003,34 @@ function avancarCodDistribuicao(){
 
 
 function desabilitaRecuoCodDistribuicao(){
-        document.getElementById("codAnteriorCadasDistribuicao").disabled = true;
-     if(document.getElementById("codAnteriorCadasDistribuicao").disabled = true){
-       mudaBotao =  document.getElementById("codAnteriorCadasDistribuicao");
+        document.getElementById("codAnteriorDistribuicao").disabled = true;
+     if(document.getElementById("codAnteriorDistribuicao").disabled = true){
+       mudaBotao =  document.getElementById("codAnteriorDistribuicao");
         mudaBotao.style.backgroundColor = "gray";
 }
     
 }
 
 function desabilitaAvancoCodDistribuicao(){
-  document.getElementById("codPosteriorCadasDistribuicao").disabled = true;
-     if(document.getElementById("codPosteriorCadasDistribuicao").disabled = true){
-       mudaBotao =  document.getElementById("codPosteriorCadasDistribuicao");
+  document.getElementById("codPosteriorDistribuicao").disabled = true;
+     if(document.getElementById("codPosteriorDistribuicao").disabled = true){
+       mudaBotao =  document.getElementById("codPosteriorDistribuicao");
         mudaBotao.style.backgroundColor = "gray";
 }
 }
 
 function habilitaRecuoCodDistribuicao(){
    
-   if(document.getElementById("codDistribuicao").value > 1){ document.getElementById("codAnteriorCadasDistribuicao").disabled = false;
-    mudaBotao =  document.getElementById("codAnteriorCadasDistribuicao");
+   if(document.getElementById("codDistribuicao").value > 1){ document.getElementById("codAnteriorDistribuicao").disabled = false;
+    mudaBotao =  document.getElementById("codAnteriorDistribuicao");
     mudaBotao.style.backgroundColor = "#698FEB";
      
 }
 }
 
 function habilitaAvancoCodDistribuicao(){
-  document.getElementById("codPosteriorCadasDistribuicao").disabled = false;
-    mudaBotao =  document.getElementById("codPosteriorCadasDistribuicao");
+  document.getElementById("codPosteriorDistribuicao").disabled = false;
+    mudaBotao =  document.getElementById("codPosteriorDistribuicao");
     mudaBotao.style.backgroundColor = "#698FEB";
 }
 
