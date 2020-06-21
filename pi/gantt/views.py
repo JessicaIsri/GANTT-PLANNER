@@ -1,15 +1,35 @@
-from django.shortcuts import render, HttpResponse
-from .models import tb_Tarefa, tb_Projeto, tb_Pessoa
-from django.views.decorators.clickjacking import xframe_options_exempt
-from .forms import PostProjeto, PostTarefa, PostPessoa, PostDistr, tb_Dev_Trf
-from django.shortcuts import redirect
-from django.contrib.auth.models import User
-from rest_framework import viewsets
-from .serializers import ProjectSerializer, TaskSerializer, PersonSerializer, DistributeSerializer
-
 #
 from rest_framework.views import APIView
 #
+
+from django.shortcuts import render, HttpResponse
+from .models import (
+    tb_Tarefa,
+    tb_Projeto,
+    tb_Pessoa,
+    tb_pes_Trf,
+    tb_hab_pes,
+    tb_habilidades
+)
+from django.views.decorators.clickjacking import xframe_options_exempt
+from .forms import (
+    PostProjeto,
+    PostTarefa,
+    PostPessoa,
+    PostDistr,
+    tb_Dev_Trf
+)
+from django.shortcuts import redirect
+from rest_framework import viewsets
+from .serializers import (
+    ProjectSerializer,
+    TaskSerializer,
+    PersonSerializer,
+    DistributeSerializer,
+    HabilidadeDistSerializer,
+    HabilidadeSerializer
+)
+
 
 # Create your views here.
 def index_page(request):
@@ -72,7 +92,6 @@ def index_page(request):
             'cor': task.fk_prj_id.prj_color
         }
         dists.append(var)
-
 
     context = {
         'projects': projects,
@@ -162,6 +181,18 @@ class PersonViewSet(viewsets.ModelViewSet, APIView):
 
 
 class DistributeViewSet(viewsets.ModelViewSet, APIView):
-    queryset = tb_Dev_Trf.objects.all()
+    queryset = tb_pes_Trf.objects.all()
     serializer_class = DistributeSerializer
+    permission_classes = ()
+
+
+class HabilidadeDistViewSet(viewsets.ModelViewSet, APIView):
+    queryset = tb_hab_pes.objects.all()
+    serializer_class = HabilidadeDistSerializer
+    permission_classes = ()
+
+
+class HabilidadesViewSet(viewsets.ModelViewSet, APIView):
+    queryset = tb_habilidades.objects.all()
+    serializer_class = HabilidadeDistSerializer
     permission_classes = ()
