@@ -283,13 +283,13 @@
                   </datalist>
                   <label id="id_prjDistr">0</label>
                <br>
-            <label for="listaTarefa">Selecione a Tarefa: <input autocomplete="off" disabled="true" id="listaTarefa" type="text" list="listaTarefa_distribuicao" name="fk_trf_id" onselect="dt_tarefas_distribuicao();" onfocus="dt_pessoas_distribuicao();"></label>
+            <label for="listaTarefa">Selecione a Tarefa: <input autocomplete="off" disabled="true" id="listaTarefa" type="text" list="listaTarefa_distribuicao" name="fk_trf_id" onselect="dt_tarefas_distribuicao();" onblur="dt_tarefas_distribuicao();" onfocus="dt_pessoas_distribuicao();" onclick="value=''"></label>
                   <datalist id="listaTarefa_distribuicao">
                       
                   </datalist>
                   <label id="id_trfDistr">0</label>
                <br>
-            <label for="listaPessoa">Selecione a Pessoa: <input autocomplete="off" disabled="true" id="listaPessoa" type="text" list="listaPessoa_distribuicao" name="fk_pes_id"></label>
+            <label for="listaPessoa">Selecione a Pessoa: <input autocomplete="off" disabled="true" id="listaPessoa" type="text" list="listaPessoa_distribuicao" name="fk_pes_id" onselect="dt_pessoas_distribuicao();" onblur="dt_pessoas_distribuicao();" onclick="value=''"></label>
                   <datalist id="listaPessoa_distribuicao">
                       
                   </datalist>

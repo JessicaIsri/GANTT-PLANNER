@@ -2514,19 +2514,15 @@ xhr_dt_tarefas_distribuicao.onreadystatechange = function(){
                         if(id_prjDistr == vetor_tarefas_distr[i][0]){
                             
                             document.getElementById("listaTarefa_distribuicao").innerHTML += "<option value='"+vetor_tarefas_distr[i][2]+"'>";
-                            console.log("<option value='"+vetor_tarefas_distr[i][2]+"'>");
-                        }
-
-                       
-                            
+                            //console.log("<option value='"+vetor_tarefas_distr[i][2]+"'>");
+                        }                           
                 }
                 nome_tarefa = document.getElementById("listaTarefa").value;
-                for(i = 0; i<vetor_tarefas_distr.length;i++){
-                    
-                    
+                
+                for(i = 0; i<vetor_tarefas_distr.length;i++){                  
                         
                     if(nome_tarefa == vetor_tarefas_distr[i][2]){
-                        console.log(nome_tarefa);
+                       
                         document.getElementById("id_trfDistr").innerHTML = ""+vetor_tarefas_distr[i][1]+"";
                     }               
                         
@@ -2559,6 +2555,14 @@ function dt_pessoas_distribuicao(){
                
                 for(i = 0; i<json.length; i++){
                     document.getElementById("listaPessoa_distribuicao").innerHTML += "<option value='"+json[i]['pes_nome']+"'>";                  
+                }
+
+                nome_pessoa = document.getElementById("listaPessoa").value;
+                console.log(nome_pessoa);
+                for(i = 0; i<json.length;i++){
+                    if(nome_pessoa == json[i]['pes_nome']){                      
+                        document.getElementById("id_pesDistr").innerHTML = ""+json[i]['pes_id']+"";
+                    } 
                 }
                 
        }else if(xhr_dt_pessoas_distribuicao.status == 404){}
@@ -2688,7 +2692,7 @@ function postDistribuicao(){
    
   
     xhrPostDistribuicao = new XMLHttpRequest();
-    xhrPostDistribuicao.open("POST", URLGETTAREFAS, true);
+    xhrPostDistribuicao.open("POST", URLGETDISTRIBUICAO, true);
     xhrPostDistribuicao.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhrPostDistribuicao.setRequestHeader("X-CSRFToken", csrftoken)
     xhrPostDistribuicao.setRequestHeader("withCredentials", 'True');
