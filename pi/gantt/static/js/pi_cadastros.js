@@ -1772,6 +1772,7 @@ function novaTarefa(){
         }
         document.getElementById("codTarefa").value = codTarefa;
     }
+    xhrNovaTarefa.send();
     
 }
 
@@ -1784,7 +1785,7 @@ desabilitaRecuoCodTarefa();
 limparCamposCadasTarefa();
 desabilitaBtnExcluirTarefa();
 desabilitaBtnAtualizarTarefa();
-xhrNovaTarefa.send();
+
 }
 
 function cancelarCadasTarefa(){
@@ -2052,390 +2053,8 @@ function habilitaBtnExcluirTarefa(){
 
 /*GET AND POST - API*////////////////////////////////////////////////////////////////////
 
-////DATALIST
-function carregaDatalistProjetos(){
-    
+////DATALIST////////////////////////////////////////////
 
-    xhrCarregaDatalistProjeto = new XMLHttpRequest();
-    vetor_DatalistProjetos = [];
-    xhrCarregaDatalistProjeto.open("GET", URLGETPROJETOS, true);
-    xhrCarregaDatalistProjeto.onreadystatechange = function(){
-        if(xhrCarregaDatalistProjeto.readyState == 4){
-            if(xhrCarregaDatalistProjeto.status == 200){
-               json = JSON.parse(xhrCarregaDatalistProjeto.responseText);     
-               document.getElementById("listaProjetos").innerHTML = '';
-                for(i = 0; i<json.length; i++){
-                    document.getElementById("listaProjetos").innerHTML += "<option value='"+json[i]['prj_nome']+"'>";
-                    
-                    linha = [json[i]['prj_id'], json[i]['prj_nome']];
-                    vetor_DatalistProjetos.push(linha);
-                    
-                    
-                }
-                outputDatalistProjetoCadastarefa(vetor_DatalistProjetos);
-                outputDatalistInterdependenciaCadastarefa(vetor_DatalistProjetos, null);
-               
-        }else if(xhrCarregaDatalistProjeto.status == 404){}
-    }
-}
-    xhrCarregaDatalistProjeto.send();
-    
-    }
-
-
-
-
-function outputDatalistProjetoCadastarefa(vetor_DatalistProjetos)
-{
-    nomeprojeto = document.getElementById("selecionaProjeto").value;
-    
-    for(i = 0; i<vetor_DatalistProjetos.length;i++){
-        
-        if(nomeprojeto == vetor_DatalistProjetos[i][1]){
-           
-            document.getElementById("id_prj").innerHTML = ""+vetor_DatalistProjetos[i][0]+"";
-        }
-
-    }
-
-   
-   
-}
-
-function carregaDatalistInterdependencia(){
-    
-
-xhrCarregaDatalistInterdependencia = new XMLHttpRequest();
-vetor_DatalistInterdependencia = [];
-xhrCarregaDatalistInterdependencia.open("GET", URLGETTAREFAS, true);
-xhrCarregaDatalistInterdependencia.onreadystatechange = function(){
-    if(xhrCarregaDatalistInterdependencia.readyState == 4){
-        if(xhrCarregaDatalistInterdependencia.status == 200){
-           json = JSON.parse(xhrCarregaDatalistInterdependencia.responseText);     
-           
-            for(i = 0; i<json.length; i++){
-               
-                linha = [json[i]['fk_prj_id'],json[i]['trf_id'], json[i]['trf_name']];
-                vetor_DatalistInterdependencia.push(linha);
-                
-                
-            }
-            outputDatalistInterdependenciaCadastarefa(null, vetor_DatalistInterdependencia);
-           
-           
-    }else if(xhrCarregaDatalistInterdependencia.status == 404){}
-}
-}
-xhrCarregaDatalistInterdependencia.send();
-
-}
-
-recebe_projetos = [];
-recebe_interdependencias = []
-function outputDatalistInterdependenciaCadastarefa(vetor_projetos, vetor_tarefas)
-{
-    
-    vetor_trfcadastrados = [];
-    if(vetor_projetos != null){
-        recebe_projetos = vetor_projetos;
-    }
-    if(vetor_tarefas != null){
-        recebe_interdependencias = vetor_tarefas;
-    }
-
-    
-
-
-    id_prj = document.getElementById("id_prj").innerHTML;
-    
-//nomeInterdependencia = document.getElementById("interdependencia").value;
-
-for(i = 0; i<recebe_projetos.length;i++){
-    document.getElementById("listaInterdependencia").innerHTML = '';
-    for(x=0 ; x<recebe_interdependencias.length;x++){
-
-        if(id_prj == recebe_interdependencias[x][0]){
-
-            document.getElementById("listaInterdependencia").innerHTML += "<option value='"+recebe_interdependencias[x][2]+"'>";
-       
-        }
-    }          
-}
-
-nomeinterdependencia = document.getElementById("interdependencia").value;
-
-for(i=0;i<recebe_interdependencias.length;i++){
-    if(nomeinterdependencia == recebe_interdependencias[i][2]){
-           
-        document.getElementById("id_interdependencia").innerHTML = ""+recebe_interdependencias[i][1]+"";
-    }
-}
-
-
-}
-
-
-///////////
-
-function preencheCamposCadasTarefa(json){
-    document.getElementById("nomeTarefa").value = json.trf_name; 
-    document.getElementById("dt_inicioTarefa").value = json.trf_datainicial;
-    document.getElementById("dt_finalTarefa").value = json.trf_datafinal;
-    document.getElementById("dt_prazoTarefa").value = json.trf_prazo;
-    document.getElementById("entregavel").checked = json.trf_entregavel;
-    document.getElementById("id_prj").innerHTML = json.fk_prj_id;
-    document.getElementById("id_interdependencia").innerHTML = json.trf_interdependencia;
-    
-
-}
-
-function getNomeProjeto(){
-    
-    xhrGetProjeto = new XMLHttpRequest();
-    xhrGetProjeto.open('GET', URLGETPROJETOS, true);
-    
-    xhrGetProjeto.onreadystatechange = function(){
-        if(xhrGetProjeto.readyState == 4){
-            if(xhrGetProjeto.status == 200){
-                json = JSON.parse(xhrGetProjeto.responseText);
-                 
-                id_prj = document.getElementById("id_prj").innerHTML;
-                for(i =0; i<json.length;i++){
-                    if(id_prj == json[i]['prj_id']){
-                        document.getElementById("selecionaProjeto").value = json[i]['prj_nome'];
-                             
-                    }
-                }
-                getAllProjects(); 
-            }else if(xhrGetProjeto.status == 404){}
-        }      
-    }
-    xhrGetProjeto.send();
-    
-}
-
-function getAllTasks(){
-    codTarefa = document.getElementById("codTarefa").value;
-    
-    
-    xhrGetTarefa = new XMLHttpRequest();
-    
-    xhrGetTarefa.open('GET', URLGETTAREFAS, true);
-    
-    xhrGetTarefa.onreadystatechange = function(){
-        if(xhrGetTarefa.readyState == 4){
-            if(xhrGetTarefa.status == 200){
-                
-                vetor_tarefa = JSON.parse(xhrGetTarefa.responseText); 
-
-                id_interdependencia = document.getElementById("id_interdependencia").innerHTML;
-                        
-                
-                for(i=0;i<vetor_tarefa.length;i++){
-                    
-
-                    if(vetor_tarefa[i]['trf_id'] == id_interdependencia){
-                       // console.log(vetor_tarefa[i]['trf_name']);
-                    document.getElementById("interdependencia").value = vetor_tarefa[i]['trf_name'];
-                    }else if(id_interdependencia == 0){
-                        document.getElementById("interdependencia").value = '';
-                    }
-                }
-               
-            }else if(xhrGetTarefa.status == 404){
-
-            }
-        }  
-        vetorTrfCadastrados(null,vetor_tarefa)    
-    }
-    xhrGetTarefa.send();
-}
-
-function getTarefa(){
-    codTarefa = document.getElementById("codTarefa").value;
-    
-    if(codTarefa == "undefined"){
-        document.getElementById("codTarefa").value = 0;
-        limparCamposCadasTarefa();
-        desabilitaAvancoCodTarefa();
-        desabilitaBtnAtualizarTarefa();
-        desabilitaBtnCancelarTarefa();
-        desabilitaBtnGravaTarefa();
-        desabilitaBtnExcluirTarefa();
-        desabilitaCamposTarefa();
-        desabilitaRecuoCodTarefa();
-
-    }else{
-        xhrGetTarefa = new XMLHttpRequest();
-    
-        xhrGetTarefa.open('GET', URLGETTAREFAS+codTarefa, true);
-            
-            xhrGetTarefa.onreadystatechange = function(){
-                if(xhrGetTarefa.readyState == 4){
-                    if(xhrGetTarefa.status == 200){
-                        preencheCamposCadasTarefa(JSON.parse(xhrGetTarefa.responseText));   
-                        
-                        getNomeProjeto();
-                        getAllTasks();
-
-                        
-                    }else if(xhrGetTarefa.status == 404){}
-
-                    
-                }
-                
-             
-                
-            }
-            xhrGetTarefa.send();
-    
-    }
-}
-
-function postTarefa(){
-   codTarefa = document.getElementById("codTarefa").value;
-   nomeTarefa =  document.getElementById("nomeTarefa").value;
-   dt_inicioTarefa =  document.getElementById("dt_inicioTarefa").value;
-   dt_finalTarefa = document.getElementById("dt_finalTarefa").value;
-   dt_prazoTarefa = document.getElementById("dt_prazoTarefa").value;
-   entregavel = document.getElementById("entregavel").checked;
-   interdependencia = document.getElementById("id_interdependencia").innerHTML;
-   
-   id_prj = document.getElementById("id_prj").innerHTML;
-  
-    xhrPostTarefa = new XMLHttpRequest();
-    xhrPostTarefa.open("POST", URLGETTAREFAS, true);
-    xhrPostTarefa.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhrPostTarefa.setRequestHeader("X-CSRFToken", csrftoken)
-    xhrPostTarefa.setRequestHeader("withCredentials", 'True');
-
-    xhrPostTarefa.onload = function(){
-        if(xhrPostTarefa.readyState == 4){
-            if(xhrPostTarefa.status == 201){
-                
-                getTarefa();
-                
-                
-            }
-        }
-    
-
-    }
-    xhrPostTarefa.send(JSON.stringify({
-         'trf_id': codTarefa,
-         'trf_name': nomeTarefa, 
-         'trf_datainicial': dt_inicioTarefa, 
-         'trf_datafinal': dt_finalTarefa,
-         'trf_prazo': dt_prazoTarefa,
-         'trf_entregavel': entregavel,
-         'trf_interdependencia': interdependencia,
-         'trf_color': '#000000',
-         'fk_prj_id': id_prj
-        }));
-         
-        desabilitaCamposTarefa();
-        habilitaBtnNovaTarefa();
-        desabilitaBtnGravaTarefa();
-        desabilitaBtnCancelarTarefa();
-        habilitaRecuoCodTarefa();
-        habilitaBtnExcluirTarefa();
-        habilitaBtnAtualizarTarefa();
-        getProjeto();
-   
-}
-
-function putTarefa(){
-    if(document.getElementById("nomeTarefa").readOnly == true){
-        habilitaCamposTarefa();
-        mudaBotao =  document.getElementById("btn_atualizarCadasTarefa");
-        mudaBotao.style.backgroundColor = "green";
-
-    }else{
-        codTarefa = document.getElementById("codTarefa").value;
-    
-    urlPutTarefa = 'http://localhost:8000/task/'+codTarefa+'/';
-
-    nomeTarefa =  document.getElementById("nomeTarefa").value;
-    dt_inicioTarefa =  document.getElementById("dt_inicioTarefa").value;
-    dt_finalTarefa = document.getElementById("dt_finalTarefa").value;
-    dt_prazoTarefa = document.getElementById("dt_prazoTarefa").value;
-    entregavel = document.getElementById("entregavel").checked;
-
-    interdependencia = document.getElementById("interdependencia").value;
-   
-   id_prj = document.getElementById("id_prj").innerHTML;
-    
-    xhrPutTarefa = new XMLHttpRequest();
-   
-    xhrPutTarefa.open("PUT", urlPutTarefa, true);
-    xhrPutTarefa.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhrPutTarefa.setRequestHeader("X-CSRFToken", csrftoken);
-    xhrPutTarefa.setRequestHeader("withCredentials", 'True');
-    xhrPutTarefa.onload = function(){
-        if(xhrPutTarefa.readyState == 4){
-            if(xhrPutTarefa.status == 200){
-                
-                getTarefa();
-               
-                
-            }
-        }
-    
-
-    }
-    xhrPutTarefa.send(JSON.stringify({
-        'trf_id': codTarefa,
-        'trf_name': nomeTarefa, 
-        'trf_datainicial': dt_inicioTarefa, 
-        'trf_datafinal': dt_finalTarefa,
-        'trf_prazo': dt_prazoTarefa,
-        'trf_entregavel': entregavel,
-        'trf_interdependencia': interdependencia,
-        'trf_color': '#000000',
-        'fk_prj_id': id_prj
-       }));
-
-    mudaBotao =  document.getElementById("btn_atualizarCadasTarefa");
-    mudaBotao.style.backgroundColor = "#698FEB";
-    
-    desabilitaCamposTarefa();
-    
-    }
-
-    
-}
-
-
-function deleteTarefa(){
-    recuarCodTarefa();
-    codTarefa = document.getElementById("codTarefa").value;
-    nomeTarefa =  document.getElementById("nomeTarefa").value;
-    dt_inicioTarefa =  document.getElementById("dt_inicioTarefa").value;
-    dt_finalTarefa = document.getElementById("dt_finalTarefa").value;
-    dt_prazoTarefa = document.getElementById("dt_prazoTarefa").value;
-    entregavel = document.getElementById("entregavel");
-    interdependencia = document.getElementById("interdependencia").value;
-   
-   id_prj = document.getElementById("id_prj").innerHTML;
-
-    xhrDeleteTarefa = new XMLHttpRequest();
-    xhrDeleteTarefa.open("DELETE", URLGETTAREFAS+codTarefa, true);
-    xhrDeleteTarefa.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhrDeleteTarefa.setRequestHeader("X-CSRFToken", csrftoken);
-    xhrDeleteTarefa.setRequestHeader("withCredentials", 'True');
-    xhrDeleteTarefa.send(); 
-    
-    getTarefa();
-    if(document.getElementById("codProjeto").value == 0){
-        limparCamposCadasProjeto();
-        habilitaBtnAtualizarProjeto();
-    }
-     
-    
-}
-///////////////////////FINISH: GET - POST - PUT - DELETE //////////////////////////////////////////////////////////
-
-////DATALIST
 function dt_projetos_distribuicao(){
     document.getElementById('listaTarefa').value = '';
 
@@ -2573,28 +2192,33 @@ function dt_pessoas_distribuicao(){
     }
 
 
-///////////
 
 
 
-function getNomeProjeto_Distribuicao(){
-    
+////DATALIST////////////////////////////////////////////
+
+
+///CÓDIGO DO PROJETO RECUPERADO A PARTIR DO GETALLTASKS_DISTRIBUICAO
+function getNomeProjeto_Distribuicao(codProjeto){
+
+    document.getElementById("id_prjDistr").innerHTML = codProjeto;
     xhrgetNomeProjeto_Distribuicao = new XMLHttpRequest();
     xhrgetNomeProjeto_Distribuicao.open('GET', URLGETPROJETOS, true);
     
     xhrgetNomeProjeto_Distribuicao.onreadystatechange = function(){
         if(xhrgetNomeProjeto_Distribuicao.readyState == 4){
             if(xhrgetNomeProjeto_Distribuicao.status == 200){
-                json = JSON.parse(xhrgetNomeProjeto_Distribuicao.responseText);
+                json_projetos_distribuicao = JSON.parse(xhrgetNomeProjeto_Distribuicao.responseText);
                  
                 id_prjDistr = document.getElementById("id_prjDistr").innerHTML;
-                for(i =0; i<json.length;i++){
-                    if(id_prjDistr == json[i]['prj_id']){
-                        document.getElementById("selecionaProjeto_distribuicao").value = json[i]['prj_nome'];
+                for(i =0; i<json_projetos_distribuicao.length;i++){
+                    if(id_prjDistr == json_projetos_distribuicao[i]['prj_id']){
+                        document.getElementById("selecionaProjeto_distribuicao").value = json_projetos_distribuicao[i]['prj_nome'];
                              
                     }
                 }
-                getAllTasks_Distribuicao(); 
+            
+                carregaTabelaDistribuicao(null, null, json_projetos_distribuicao);
             }else if(xhrgetNomeProjeto_Distribuicao.status == 404){}
         }      
     }
@@ -2611,22 +2235,32 @@ function getAllTasks_Distribuicao(){
         if(xhrgetAllTasks_Distribuicao.readyState == 4){
             if(xhrgetAllTasks_Distribuicao.status == 200){
                 
-                vetor_tarefa = JSON.parse(xhrgetAllTasks_Distribuicao.responseText); 
+                json_tarefas_distribuicao = JSON.parse(xhrgetAllTasks_Distribuicao.responseText); 
 
                 id_trfDistr = document.getElementById("id_trfDistr").innerHTML;
                         
-                
-                for(i=0;i<vetor_tarefa.length;i++){
+                carregaTabelaDistribuicao(null, json_tarefas_distribuicao, null);
+                for(i=0;i<json_tarefas_distribuicao.length;i++){
                     
 
-                    if(vetor_tarefa[i]['trf_id'] == id_trfDistr){
-                       // console.log(vetor_tarefa[i]['trf_name']);
-                    document.getElementById("listaTarefa").value = vetor_tarefa[i]['trf_name'];
+                    if(json_tarefas_distribuicao[i]['trf_id'] == id_trfDistr){
+                       // console.log(json_tarefas_distribuicao[i]['trf_name']);
+                    document.getElementById("listaTarefa").value = json_tarefas_distribuicao[i]['trf_name'];
+
+                    //EXPORTANDO CODPROJETO PARA GETNOMEPROJETO_DISTRIBUICAO
+                    codProjeto = json_tarefas_distribuicao[i]['fk_prj_id'];
+                    getNomeProjeto_Distribuicao(codProjeto);
+                    
+                
                     }else if(id_trfDistr == 0){
                         document.getElementById("listaTarefa").value = '';
                     }
+
+                    
                 }
-               
+
+                
+
             }else if(xhrgetAllTasks_Distribuicao.status == 404){
 
             }
@@ -2646,7 +2280,7 @@ function getAllPeople_distribuicao(){
         if(xhr_get_all_people_distribuicao.status == 200){
             
             json_people_distribuicao = JSON.parse(xhr_get_all_people_distribuicao.responseText); 
-           
+            carregaTabelaDistribuicao(json_people_distribuicao, null, null);
             for(i=0;i<json_people_distribuicao.length;i++){
                 
                 console.log(json_people_distribuicao);
@@ -2699,7 +2333,7 @@ function getDistribuicao(){
                          
                         getAllTasks_Distribuicao();
                         getAllPeople_distribuicao();
-                        getNomeProjeto_Distribuicao();
+                        
                         
                         
                     }else if(xhrGetDistribuicao.status == 404){}
@@ -2733,7 +2367,22 @@ function postDistribuicao(){
             if(xhrPostDistribuicao.status == 201){
                 
                 getDistribuicao();
+                desabilitaCamposDistribuicao();
+                habilitaBtnNovaDistribuicao();
+                desabilitaBtnGravaDistribuicao();
+                desabilitaBtnCancelarDistribuicao();
+                habilitaRecuoCodDistribuicao();
+                habilitaBtnExcluirDistribuicao();
+                habilitaBtnAtualizarDistribuicao();   
                
+            }else if(xhrPostDistribuicao.status == 400){
+                limparCamposCadasDistribuicao();
+                habilitaCamposDistribuicao();
+                habilitaBtnGravarDistribuicao();
+                habilitaBtnCancelarDistribuicao();
+                desabilitaBtnExcluirDistribuicao();
+                desabilitaRecuoCodDistribuicao();
+                
             }
         }
     
@@ -2745,17 +2394,11 @@ function postDistribuicao(){
          'fk_trf_id': codTarefaDistr       
         }));
          
-        desabilitaCamposDistribuicao();
-        habilitaBtnNovaDistribuicao();
-        desabilitaBtnGravaDistribuicao();
-        desabilitaBtnCancelarDistribuicao();
-        habilitaRecuoCodDistribuicao();
-        habilitaBtnExcluirDistribuicao();
-        habilitaBtnAtualizarDistribuicao();   
+       
 }
 
 function putDistribuicao(){
-    if(document.getElementById("selecionaProjeto_distribuicao").readOnly == true){
+    if(document.getElementById("selecionaProjeto_distribuicao").disabled == true){
         habilitaCamposDistribuicao();
         mudaBotao =  document.getElementById("btn_atualizarCadasDistribuicao");
         mudaBotao.style.backgroundColor = "green";
@@ -2780,16 +2423,16 @@ function putDistribuicao(){
                }
             }
      }
-    xhrPutDistribuicao.send(JSON.stringify({
-        'pes_trf_id': codPesTrf,
-        'fk_pes_id': codPessoaDistr,
-         'fk_trf_id': codTarefaDistr 
-       }));
+        xhrPutDistribuicao.send(JSON.stringify({
+            'pes_trf_id': codPesTrf,
+            'fk_pes_id': codPessoaDistr,
+            'fk_trf_id': codTarefaDistr 
+        }));
 
-    mudaBotao =  document.getElementById("btn_atualizarCadasDistribuicao");
-    mudaBotao.style.backgroundColor = "#698FEB";
-    
-    desabilitaCamposDistribuicao();
+        mudaBotao =  document.getElementById("btn_atualizarCadasDistribuicao");
+        mudaBotao.style.backgroundColor = "#698FEB";
+        
+        desabilitaCamposDistribuicao();
     
     }
 
@@ -2869,6 +2512,7 @@ function clicaDistribuicao(){
     habilitaBtnNovaDistribuicao();
     desabilitaBtnGravaDistribuicao();
     desabilitaAvancoCodDistribuicao();
+    carregaTabelaDistribuicao();
 }
 
 function novaDistribuicao(){
@@ -2913,6 +2557,8 @@ limparCamposCadasDistribuicao();
 desabilitaBtnExcluirDistribuicao();
 desabilitaBtnAtualizarDistribuicao();
 
+
+
 }
 
 function cancelarCadasDistribuicao(){
@@ -2920,7 +2566,7 @@ function cancelarCadasDistribuicao(){
     document.getElementById("codDistribuicao").value = codDistribuicao - 1;
     
     desabilitaCamposDistribuicao();
-    
+    limparCamposCadasDistribuicao();   
     desabilitaBtnGravaDistribuicao();
     desabilitaBtnCancelarDistribuicao();
     habilitaRecuoCodDistribuicao();
@@ -2928,6 +2574,8 @@ function cancelarCadasDistribuicao(){
     habilitaBtnNovaDistribuicao();
     habilitaBtnExcluirDistribuicao();
     habilitaBtnAtualizarDistribuicao();
+
+   
    
 }
 
@@ -3072,6 +2720,10 @@ function habilitaAvancoCodDistribuicao(){
 function fecharCadastroDistribuicao(){
     dialogCadastro.close();
     limparCamposCadasDistribuicao();
+    mudaBotao =  document.getElementById("btn_atualizarCadasDistribuicao");
+    mudaBotao.style.backgroundColor = "#698FEB";
+    
+
 }
 
 function habilitaBtnCancelarDistribuicao(){
@@ -3095,7 +2747,7 @@ function habilitaCamposDistribuicao(){
 }
 
 function desabilitaCamposDistribuicao(){
-    limparCamposCadasDistribuicao();
+    
     document.getElementById("selecionaProjeto_distribuicao").disabled = true;
     document.getElementById("listaTarefa").disabled = true;   
     document.getElementById("listaPessoa").disabled = true;
@@ -3133,14 +2785,9 @@ function limparCamposCadasDistribuicao(){
     document.getElementById("selecionaProjeto_distribuicao").value = '';
     document.getElementById("listaTarefa").value = ''; 
     document.getElementById("listaPessoa").value = '';
+   
     
    
-}
-
-function desabilitaBtnAtualizarDistribuicao(){
-    document.getElementById("btn_atualizarCadasDistribuicao").disabled = true;
-   mudaBotao =  document.getElementById("btn_atualizarCadasDistribuicao");
-    mudaBotao.style.backgroundColor = "gray";
 }
 
 function habilitaBtnAtualizarDistribuicao(){
@@ -3148,6 +2795,12 @@ function habilitaBtnAtualizarDistribuicao(){
      mudaBotao =  document.getElementById("btn_atualizarCadasDistribuicao");
      mudaBotao.style.backgroundColor = "#698FEB";
  }
+
+ function desabilitaBtnAtualizarDistribuicao(){
+    document.getElementById("btn_atualizarCadasDistribuicao").disabled = true;
+ mudaBotao =  document.getElementById("btn_atualizarCadasDistribuicao");
+ mudaBotao.style.backgroundColor = "gray";
+}
 
  function desabilitaBtnExcluirDistribuicao(){
     document.getElementById("btn_excluirCadasDistribuicao").disabled = true;
@@ -3159,6 +2812,72 @@ function habilitaBtnExcluirDistribuicao(){
     document.getElementById("btn_excluirCadasDistribuicao").disabled = false;
     mudaBotao =  document.getElementById("btn_excluirCadasDistribuicao");
         mudaBotao.style.backgroundColor = "#698FEB";
+}
+
+recebe_projetos_distribuicao = [];
+recebe_tarefas_distribuicao = [];
+recebe_pessoas_distribuicao = [];
+
+function carregaTabelaDistribuicao(json_people_distribuicao,json_tarefas_distribuicao,json_projetos_distribuicao){
+
+    if(json_people_distribuicao != null){
+        recebe_pessoas_distribuicao = json_people_distribuicao;
+    }
+    if(json_tarefas_distribuicao != null){
+        recebe_tarefas_distribuicao = json_tarefas_distribuicao;
+    }
+    if(json_projetos_distribuicao != null){
+        recebe_projetos_distribuicao = json_projetos_distribuicao;
+    }
+
+    nomePessoa = '';
+    nomeTarefa = '';
+    nomeProjeto = '';
+    corProjeto = '';
+    vetor_tabela_distribuicao = [];
+    codDistribuicao = parseInt(document.getElementById("codDistribuicao").value);
+    vetor_tabelaDistribuicao = [];
+    xhrTabelaDistribuicao = new XMLHttpRequest();
+    xhrTabelaDistribuicao.open('GET', URLGETDISTRIBUICAO, true);
+    xhrTabelaDistribuicao.onreadystatechange = function(){     
+        if(xhrTabelaDistribuicao.readyState == 4){
+            if(xhrTabelaDistribuicao.status == 200){
+                json_tabela_distribuicao = (JSON.parse(xhrTabelaDistribuicao.responseText));
+                         
+                for(i = 0; i< json_tabela_distribuicao.length;i++){
+                    for(x = 0; x < recebe_pessoas_distribuicao.length;x++){
+                        if(json_tabela_distribuicao[i]['pes_trf_id'] == recebe_pessoas_distribuicao[x]['pes_id']){
+                            nomePessoa = recebe_pessoas_distribuicao[x]['pes_nome'];
+                            vetor_tabela_distribuicao.push(nomePessoa);
+                        }
+                    }
+                    for(x = 0; x < recebe_tarefas_distribuicao.length;x++){
+                        if(json_tabela_distribuicao[i]['pes_trf_id'] == recebe_tarefas_distribuicao[x]['trf_id']){
+                            nomeTarefa = recebe_tarefas_distribuicao[x]['trf_name'];
+                            vetor_tabela_distribuicao.push(nomeTarefa);
+                        }
+                    }
+                }
+
+                
+                console.log(vetor_tabela_distribuicao);
+
+                for(i = 0;i<vetor_tabela_distribuicao.length;i++){
+                    linhaTabelaDistribuicao = ["<tr><td>"+vetor_tabela_distribuicao[i][0]+"</td><td>"+vetor_tabela_distribuicao[i][1]+"</td><td>"+'falta'+"</td><td bgcolor="+'falta'+"></td></tr>"];
+                    vetor_tabelaDistribuicao.push(linhaTabelaDistribuicao);                  
+                }
+
+            }else if(xhrTabelaDistribuicao.status == 404){}
+            
+            }    
+        document.getElementById("corpoTabelaDistribuicao").innerHTML = '';
+        
+    for(i = 0; i < vetor_tabelaDistribuicao.length;i++){
+         document.getElementById("corpoTabelaDistribuicao").innerHTML += vetor_tabelaDistribuicao[i];
+    }   
+}
+xhrTabelaDistribuicao.send();
+
 }
 
 /*///////////////////////////////////////*/
