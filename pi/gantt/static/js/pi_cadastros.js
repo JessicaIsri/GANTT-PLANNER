@@ -2177,7 +2177,7 @@ function dt_pessoas_distribuicao(){
                 }
 
                 nome_pessoa = document.getElementById("listaPessoa").value;
-                console.log(nome_pessoa);
+               
                 for(i = 0; i<json.length;i++){
                     if(nome_pessoa == json[i]['pes_nome']){                      
                         document.getElementById("id_pesDistr").innerHTML = ""+json[i]['pes_id']+"";
@@ -2283,7 +2283,7 @@ function getAllPeople_distribuicao(){
             carregaTabelaDistribuicao(json_people_distribuicao, null, null);
             for(i=0;i<json_people_distribuicao.length;i++){
                 
-                console.log(json_people_distribuicao);
+               
                 if(json_people_distribuicao[i]['pes_id'] == id_pesDistr){
                    // console.log(json_people_distribuicao[i]['trf_name']);
                 document.getElementById("listaPessoa").value = json_people_distribuicao[i]['pes_nome'];
@@ -2309,7 +2309,7 @@ function getDistribuicao(){
     if(codDistribuicao == "undefined"){
         document.getElementById("codDistribuicao").value = 0;
         limparCamposCadasDistribuicao();
-        desabilitaAvancocodDistribuicao();
+        desabilitaAvancoCodDistribuicao();
         desabilitaBtnAtualizarDistribuicao();
         desabilitaBtnCancelarDistribuicao();
         desabilitaBtnGravaDistribuicao();
@@ -2327,12 +2327,13 @@ function getDistribuicao(){
                     if(xhrGetDistribuicao.status == 200){
                           
                         json_distribuicao = JSON.parse(xhrGetDistribuicao.responseText);
-                        console.log(json_distribuicao);
+                        
                         document.getElementById("id_trfDistr").innerHTML = ""+json_distribuicao['fk_trf_id']+"";
                         document.getElementById("id_pesDistr").innerHTML = ""+json_distribuicao['fk_pes_id']+"";
                          
                         getAllTasks_Distribuicao();
                         getAllPeople_distribuicao();
+                        carregaTabelaDistribuicao();
                         
                         
                         
@@ -2814,6 +2815,7 @@ function habilitaBtnExcluirDistribuicao(){
         mudaBotao.style.backgroundColor = "#698FEB";
 }
 
+
 recebe_projetos_distribuicao = [];
 recebe_tarefas_distribuicao = [];
 recebe_pessoas_distribuicao = [];
@@ -2833,51 +2835,57 @@ function carregaTabelaDistribuicao(json_people_distribuicao,json_tarefas_distrib
     nomePessoa = '';
     nomeTarefa = '';
     nomeProjeto = '';
+    codProjeto = '';
     corProjeto = '';
     vetor_tabela_distribuicao = [];
     codDistribuicao = parseInt(document.getElementById("codDistribuicao").value);
     vetor_tabelaDistribuicao = [];
+    preparaVetor = [];
     xhrTabelaDistribuicao = new XMLHttpRequest();
     xhrTabelaDistribuicao.open('GET', URLGETDISTRIBUICAO, true);
     xhrTabelaDistribuicao.onreadystatechange = function(){     
         if(xhrTabelaDistribuicao.readyState == 4){
             if(xhrTabelaDistribuicao.status == 200){
-                json_tabela_distribuicao = (JSON.parse(xhrTabelaDistribuicao.responseText));
-                         
+                json_tabela_distribuicao = (JSON.parse(xhrTabelaDistribuicao.responseText));                 
                 for(i = 0; i< json_tabela_distribuicao.length;i++){
                     for(x = 0; x < recebe_pessoas_distribuicao.length;x++){
-                        if(json_tabela_distribuicao[i]['pes_trf_id'] == recebe_pessoas_distribuicao[x]['pes_id']){
-                            nomePessoa = recebe_pessoas_distribuicao[x]['pes_nome'];
-                            vetor_tabela_distribuicao.push(nomePessoa);
+                        if(json_tabela_distribuicao[i]['fk_pes_id'] == recebe_pessoas_distribuicao[x]['pes_id']){
+                            nomePessoa = recebe_pessoas_distribuicao[x]['pes_nome'];        
                         }
                     }
                     for(x = 0; x < recebe_tarefas_distribuicao.length;x++){
-                        if(json_tabela_distribuicao[i]['pes_trf_id'] == recebe_tarefas_distribuicao[x]['trf_id']){
-                            nomeTarefa = recebe_tarefas_distribuicao[x]['trf_name'];
-                            vetor_tabela_distribuicao.push(nomeTarefa);
+                        if(json_tabela_distribuicao[i]['fk_trf_id'] == recebe_tarefas_distribuicao[x]['trf_id']){
+                            nomeTarefa = recebe_tarefas_distribuicao[x]['trf_name']; 
+                            codProjeto = recebe_tarefas_distribuicao[x]['fk_prj_id'];
+                            
+                            for(z = 0; z< recebe_projetos_distribuicao.length;z++){
+                                
+                                if(codProjeto == recebe_projetos_distribuicao[z]['prj_id']){
+                                    corProjeto = recebe_projetos_distribuicao[z]['prj_color'];
+                                    nomeProjeto = recebe_projetos_distribuicao[z]['prj_nome'];
+                                   
+                                }
+                            }
+                            
                         }
                     }
+                    preparaVetor = [nomePessoa,nomeTarefa, nomeProjeto, corProjeto];
+                    vetor_tabela_distribuicao.push(preparaVetor);
+                    
                 }
-
                 
-                console.log(vetor_tabela_distribuicao);
-
                 for(i = 0;i<vetor_tabela_distribuicao.length;i++){
-                    linhaTabelaDistribuicao = ["<tr><td>"+vetor_tabela_distribuicao[i][0]+"</td><td>"+vetor_tabela_distribuicao[i][1]+"</td><td>"+'falta'+"</td><td bgcolor="+'falta'+"></td></tr>"];
+                    linhaTabelaDistribuicao = ["<tr><td>"+vetor_tabela_distribuicao[i][0]+"</td><td>"+vetor_tabela_distribuicao[i][1]+"</td><td>"+vetor_tabela_distribuicao[i][2]+"</td><td bgcolor="+vetor_tabela_distribuicao[i][3]+"></td></tr>"];
                     vetor_tabelaDistribuicao.push(linhaTabelaDistribuicao);                  
                 }
-
             }else if(xhrTabelaDistribuicao.status == 404){}
-            
             }    
         document.getElementById("corpoTabelaDistribuicao").innerHTML = '';
-        
     for(i = 0; i < vetor_tabelaDistribuicao.length;i++){
          document.getElementById("corpoTabelaDistribuicao").innerHTML += vetor_tabelaDistribuicao[i];
     }   
 }
 xhrTabelaDistribuicao.send();
-
 }
 
 /*///////////////////////////////////////*/
