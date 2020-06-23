@@ -61,6 +61,7 @@ csrftoken = getCookie('csrftoken');
 function preencheCamposCadasPessoa(json){
     document.getElementById("nomePessoa").value = json.pes_nome; 
     document.getElementById("contato").value = json.pes_contato;
+    document.getElementById("salario").value = json.pes_salario;
 }
 
 
@@ -106,6 +107,10 @@ function postPessoa(){
     codPessoa = document.getElementById("codPessoa").value;
     nomePessoa = document.getElementById("nomePessoa").value;
     contato = document.getElementById("contato").value;
+    salario = document.getElementById("salario").value;
+    faltas = document.getElementById("faltas").innerHTML;
+    horas_disponiveis = document.getElementById("horas_disponiveis").innerHTML;
+
     xhrPostPessoa = new XMLHttpRequest();
     xhrPostPessoa.open("POST", URLGETPESSOAS, true);
     xhrPostPessoa.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -123,7 +128,10 @@ function postPessoa(){
     xhrPostPessoa.send(JSON.stringify({
         'pes_id': codPessoa,
         'pes_nome': nomePessoa, 
-        'pes_contato': contato 
+        'pes_contato': contato,
+        'pes_salario': salario,
+        'pes_faltas': faltas,
+        'pes_hrs_disponivel': horas_disponiveis
     }));
 
     
@@ -146,8 +154,11 @@ function putPessoa(){
     }else{
         codPessoa = document.getElementById("codPessoa").value;
     
-    nomePessoa = document.getElementById("nomePessoa").value;
-    contato = document.getElementById("contato").value;
+        nomePessoa = document.getElementById("nomePessoa").value;
+        contato = document.getElementById("contato").value;
+        salario = document.getElementById("salario").value;
+        faltas = document.getElementById("faltas").innerHTML;
+        horas_disponiveis = document.getElementById("horas_disponiveis").innerHTML;
 
     xhrPutPessoa = new XMLHttpRequest();
    
@@ -168,10 +179,13 @@ function putPessoa(){
     }
 
     xhrPutPessoa.send(JSON.stringify({
-    'pes_id': codPessoa,
-    'pes_nome': nomePessoa, 
-    'pes_contato': contato  
-}));
+        'pes_id': codPessoa,
+        'pes_nome': nomePessoa, 
+        'pes_contato': contato,
+        'pes_salario': salario,
+        'pes_faltas': faltas,
+        'pes_hrs_disponivel': horas_disponiveis
+    }));
 
     
     mudaBotao =  document.getElementById("btn_atualizarCadasPessoa");
@@ -516,6 +530,8 @@ function desabilitaBtnCancelarPessoa(){
 function habilitaCamposPessoa(){
      document.getElementById("nomePessoa").readOnly = false;
     document.getElementById("contato").readOnly = false;
+    document.getElementById("salario").readOnly = false;
+    
   
 }
 
@@ -523,6 +539,7 @@ function desabilitaCamposPessoa(){
     limparCamposCadasPessoa();
     document.getElementById("nomePessoa").readOnly = true;
     document.getElementById("contato").readOnly = true;
+    document.getElementById("salario").readOnly = true;
     
     
 }
@@ -572,17 +589,13 @@ function habilitaBtnGravarPessoa(){
 function limparCamposCadasPessoa(){
     document.getElementById("nomePessoa").value = '';
     document.getElementById("contato").value = '';
+    document.getElementById("salario").value = '';
     
 }
 
 function fecharCadastroPessoa(){
     dialogCadastro.close();
-    limparCadasPessoa();
-}
-
-function limparCadasPessoa(){
-    document.getElementById('nomePessoa').value = '';
-    document.getElementById('contato').value = '';
+    limparCamposCadasPessoa();
 }
 
 
