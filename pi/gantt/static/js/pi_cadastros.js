@@ -2575,13 +2575,7 @@ function dt_pessoas_distribuicao(){
 
 ///////////
 
-function preencheCamposDistribuicao(json){
-        document.getElementById("id_prjDistr").innerHTML = json.fk_prj_id;
-    document.getElementById("id_trfDistr").innerHTML = json.trf_id;
-    document.getElementById("id_pesDistr").innerHTML = json.pes_id;
-    
 
-}
 
 function getNomeProjeto_Distribuicao(){
     
@@ -2596,7 +2590,7 @@ function getNomeProjeto_Distribuicao(){
                 id_prjDistr = document.getElementById("id_prjDistr").innerHTML;
                 for(i =0; i<json.length;i++){
                     if(id_prjDistr == json[i]['prj_id']){
-                        document.getElementById("listaProjetos_distribuicao").value = json[i]['prj_nome'];
+                        document.getElementById("selecionaProjeto_distribuicao").value = json[i]['prj_nome'];
                              
                     }
                 }
@@ -2642,6 +2636,38 @@ function getAllTasks_Distribuicao(){
     xhrgetAllTasks_Distribuicao.send();
 }
 
+function getAllPeople_distribuicao(){
+    xhr_get_all_people_distribuicao = new XMLHttpRequest();
+    xhr_get_all_people_distribuicao.open('GET', URLGETPESSOAS, true);
+    id_pesDistr = document.getElementById("id_pesDistr").innerHTML;
+    console.log(id_pesDistr);
+    xhr_get_all_people_distribuicao.onreadystatechange = function(){
+    if(xhr_get_all_people_distribuicao.readyState == 4){
+        if(xhr_get_all_people_distribuicao.status == 200){
+            
+            json_people_distribuicao = JSON.parse(xhr_get_all_people_distribuicao.responseText); 
+           
+            for(i=0;i<json_people_distribuicao.length;i++){
+                
+                console.log(json_people_distribuicao);
+                if(json_people_distribuicao[i]['pes_id'] == id_pesDistr){
+                   // console.log(json_people_distribuicao[i]['trf_name']);
+                document.getElementById("listaPessoa").value = json_people_distribuicao[i]['pes_nome'];
+                }else if(id_pesDistr == 0){
+                    document.getElementById("listaPessoa").value = '';
+                }
+            }
+           
+        }else if(xhr_get_all_people_distribuicao.status == 404){
+
+        }
+    }  
+   
+    }
+xhr_get_all_people_distribuicao.send();
+
+}
+
 
 
 function getDistribuicao(){
@@ -2660,16 +2686,21 @@ function getDistribuicao(){
     }else{
         xhrGetDistribuicao = new XMLHttpRequest();
     
-        xhrGetDistribuicao.open('GET', URLGETDISTRIBUICAO+codDistribuicao, true);
-            
+        xhrGetDistribuicao.open('GET', URLGETDISTRIBUICAO+codDistribuicao+'/', true);
+            vetor_distribuicao = [];
             xhrGetDistribuicao.onreadystatechange = function(){
                 if(xhrGetDistribuicao.readyState == 4){
                     if(xhrGetDistribuicao.status == 200){
-                        preencheCamposCadasTarefa(JSON.parse(xhrGetDistribuicao.responseText));   
-                        
-                        getNomeProjeto_Distribuicao();
+                          
+                        json_distribuicao = JSON.parse(xhrGetDistribuicao.responseText);
+                        console.log(json_distribuicao);
+                        document.getElementById("id_trfDistr").innerHTML = ""+json_distribuicao['fk_trf_id']+"";
+                        document.getElementById("id_pesDistr").innerHTML = ""+json_distribuicao['fk_pes_id']+"";
+                         
                         getAllTasks_Distribuicao();
-
+                        getAllPeople_distribuicao();
+                        getNomeProjeto_Distribuicao();
+                        
                         
                     }else if(xhrGetDistribuicao.status == 404){}
 
@@ -2701,9 +2732,8 @@ function postDistribuicao(){
         if(xhrPostDistribuicao.readyState == 4){
             if(xhrPostDistribuicao.status == 201){
                 
-                getTarefa();
-                
-                
+                getDistribuicao();
+               
             }
         }
     
@@ -2818,8 +2848,9 @@ function clicaDistribuicao(){
                     desabilitaRecuoCodDistribuicao();
                 }else{
                     document.getElementById("codDistribuicao").value = maiorvalor;
-                    habilitaRecuoCodDistribuicao();
                     getDistribuicao();
+                    habilitaRecuoCodDistribuicao();
+                    
                 }
 
             }else if(xhrAbreDistribuicao.status == 404){}
