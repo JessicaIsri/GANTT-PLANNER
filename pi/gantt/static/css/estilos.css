@@ -430,6 +430,7 @@
 
 #cadastro_projeto #codProjeto{
    width: 100px;
+   margin-bottom: 5px;
    
     
 }
@@ -437,28 +438,62 @@
 #cadastro_projeto #codAnteriorCadasProjeto{
     width: 30px;
     margin-left: 5px;
+    margin-bottom: 5px;
 }
 
 #cadastro_projeto #codPosteriorCadasProjeto{
     width: 30px;
     margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+#cadastro_projeto #lb_progresso{
+    margin-left: 10px;
+    margin-bottom: 5px;
     
 }
 
+#cadastro_projeto #progresso{
+    width: 100px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+
 #cadastro_projeto #nomeProjeto{
    width: 200px;
+   margin-bottom: 10px;
 }
 #cadastro_projeto #escopo{
     width: 200px;
+    margin-bottom: 10px;
 }
 #cadastro_projeto #dt_inicioProjeto{
-    width: 150px;
+    width: 130px;
+    margin-bottom: 10px;
 }
 #cadastro_projeto #dt_prazoProjeto{
-    width: 150px;
+    width: 130px;
+    margin-bottom: 10px;
 }
+
+#cadastro_projeto #custo{
+    width: 90px;
+    margin-bottom: 10px;
+ }
+
+ #cadastro_projeto #horas_desenvolvimento{
+    width: 90px;
+    margin-bottom: 10px;
+ }
+
+ 
+
 #cadastro_projeto #corProjeto{
     width: 200px;
+    margin-bottom: 10px;
 }
 #cadastro_projeto #btn_novoprojeto{
     width: 80px;

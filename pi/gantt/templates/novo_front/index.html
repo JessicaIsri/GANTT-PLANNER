@@ -122,17 +122,36 @@
                  <label  for="codProjeto">Código projeto: <input readonly="true" id="codProjeto" type="text" name="prj_id"></label>
                  <button type="button" id="codAnteriorCadasProjeto" class="btn_shadow1_1" onclick="recuarCodProjeto()"></button>
                  <button type="button" id="codPosteriorCadasProjeto" class="btn_shadow1" onclick="avancarCodProjeto()"></button>
-                                  <br><br>
+                 <label id="lb_progresso">Progresso % :</label>
+                <select id="progresso" name="prj_progresso">
+                    <option>0</option>
+                    <option>10</option>
+                    <option>20</option>
+                    <option>30</option>
+                    <option>40</option>
+                    <option>50</option>
+                    <option>60</option>
+                    <option>70</option>
+                    <option>80</option>
+                    <option>90</option>
+                    <option>100</option>
+                </select>                
+                <br><br>
                 <label for="nomeProjeto">Nome projeto: <input autocomplete="off" id="nomeProjeto" readonly="true" type="text" name="prj_nome"></label>
                   
                   <label for="escopo">Escopo: <input autocomplete="off" id="escopo" readonly="true" type="text" name="prj_escopo"></label>
-                  <br><br>
+                  <br>
                   <label for="dt_inicioProjeto">Data Início: <input readonly="true" id="dt_inicioProjeto" type="date" name="prj_datainicio"></label>
                   
                   <label for="dt_prazoProjeto">Prazo Entrega: <input readonly="true" id="dt_prazoProjeto" type="date" name="prj_prazo"></label>
-                    <br><br>
+                  <br>
+                
+                  <label for="custo">Custo Projeto: <input readonly="true" id="custo" type="number" name="prj_cost"></label>
+                  
+                  <label for="horas_desenvolvimento">Horas Desenvolvimento: <input readonly="true" id="horas_desenvolvimento" type="number" name="prj_hrs_dev"></label>
+                  <br>
                   <label for="corProjeto">Cor do projeto: <input disabled="true" id="corProjeto" type="color" name="prj_cor"></label>
-                    <br><br>
+                  <br>
                   <button id="btn_novoprojeto" type="submit" class="btn_shadow2" onclick="novoProjeto()">Novo</button>
                 
                       <button id="btn_salvarprojeto" type="submit" class="btn_shadow2" onclick="postProjeto()">Gravar</button>

@@ -52,6 +52,8 @@ function getCookie(name) {
 csrftoken = getCookie('csrftoken');
 /////////////////////////////////////////////
 
+
+
 /*CADASTRO DE PESSOAS*///////////////////////////////
 
 /*GET AND POST - API*////////////////////////////////////////////////////////////////////
@@ -638,7 +640,7 @@ function carregaTabelaPessoa(){
 /*/////////////////////////////////////////////////*/
 
 
-/*CADASTRO DE PROJETOS*/////////////////////////////
+/*CADASTRO DE PROJETOS*//////////////////////////////////////////////////////////////////
 
 /*GET AND POST - API*////////////////////////////////////////////////////////////////////
 vetor_prjcadastrados = [];
@@ -646,11 +648,16 @@ vetor_trfcadastrados = [];
 
 
 function preencheCamposCadasProjeto(json){
+    
     document.getElementById("nomeProjeto").value = json.prj_nome; 
     document.getElementById("escopo").value = json.prj_escopo;
     document.getElementById("dt_inicioProjeto").value = json.prj_datainicio;
     document.getElementById("dt_prazoProjeto").value = json.prj_prazoentrega;
     document.getElementById("corProjeto").value = json.prj_color;
+    document.getElementById("progresso").value = json.prj_progresso; 
+    document.getElementById("custo").value = json.prj_cost;
+    document.getElementById("horas_desenvolvimento").value = json.prj_hrs_dev; 
+
 
 }
 
@@ -722,6 +729,9 @@ function postProjeto(){
     dt_inicio = document.getElementById("dt_inicioProjeto").value;
     dt_prazo = document.getElementById("dt_prazoProjeto").value;
     cor = document.getElementById("corProjeto").value;
+    progresso = document.getElementById("progresso").value;
+    custo = document.getElementById("custo").value;
+    horas_desen = document.getElementById("horas_desenvolvimento").value;
     
     
 
@@ -750,7 +760,10 @@ function postProjeto(){
          'prj_escopo': escopo, 
          'prj_datainicio': dt_inicio,
          'prj_prazoentrega': dt_prazo,
-         'prj_color': cor
+         'prj_color': cor,
+         "prj_cost": custo,
+         "prj_hrs_dev": horas_desen,
+         "prj_progresso": progresso
         }));
     
     
@@ -778,6 +791,9 @@ function putProjeto(){
     dt_inicio = document.getElementById("dt_inicioProjeto").value;
     dt_prazo = document.getElementById("dt_prazoProjeto").value;
     cor = document.getElementById("corProjeto").value;
+    progresso = document.getElementById("progresso").value;
+    custo = document.getElementById("custo").value;
+    horas_desen = document.getElementById("horas_desenvolvimento").value;
     
 
     xhrPutProjeto = new XMLHttpRequest();
@@ -801,11 +817,14 @@ function putProjeto(){
     }   
     xhrPutProjeto.send(JSON.stringify({
         'prj_id': codProjeto,
-         'prj_nome': nomeProjeto, 
-         'prj_escopo': escopo, 
-         'prj_datainicio': dt_inicio,
-         'prj_prazoentrega': dt_prazo,
-         'prj_color': cor
+        'prj_nome': nomeProjeto, 
+        'prj_escopo': escopo, 
+        'prj_datainicio': dt_inicio,
+        'prj_prazoentrega': dt_prazo,
+        'prj_color': cor,
+        "prj_cost": custo,
+        "prj_hrs_dev": horas_desen,
+        "prj_progresso": progresso
        }));
 
     mudaBotao =  document.getElementById("btn_atualizarCadasProjeto");
@@ -1130,6 +1149,9 @@ function habilitaCamposProjeto(){
     document.getElementById("dt_prazoProjeto").readOnly = false;
     
     document.getElementById("corProjeto").disabled = false;
+    progresso = document.getElementById("progresso").disabled = false;
+    custo = document.getElementById("custo").readOnly = false;
+    horas_desen = document.getElementById("horas_desenvolvimento").readOnly = false;
     
     
 }
@@ -1141,6 +1163,9 @@ function desabilitaCamposProjeto(){
     document.getElementById("dt_inicioProjeto").readOnly = true;
     document.getElementById("dt_prazoProjeto").readOnly = true;  
     document.getElementById("corProjeto").disabled = true;
+    progresso = document.getElementById("progresso").disabled = true;
+    custo = document.getElementById("custo").readOnly = true;
+    horas_desen = document.getElementById("horas_desenvolvimento").readOnly = true;
     
 }
 
@@ -1194,6 +1219,10 @@ function limparCamposCadasProjeto(){
     cor = "#000000";
     
     mudaCor.value = cor.value;
+
+    progresso = document.getElementById("progresso").value = 0;
+    custo = document.getElementById("custo").value = '';
+    horas_desen = document.getElementById("horas_desenvolvimento").value = '';
 }
 
 
@@ -1318,6 +1347,9 @@ function expandeTrf(nomeBtn){
 
 }
 /*///////////////////////////////////////////////////////////////////////////////////////*/
+
+
+/**CADASTRO DE TAREFAS *//////////////////////////////////////////////////////////////////
 
 /*GET AND POST - API*////////////////////////////////////////////////////////////////////
 
@@ -1695,10 +1727,6 @@ function deleteTarefa(){
     
 }
 ///////////////////////FINISH: GET - POST - PUT - DELETE //////////////////////////////////////////////////////////
-
-
-
-/*CADASTRO DE TAREFAS*/////////////////////////////
 
 vetor_tarefa = [];
 
