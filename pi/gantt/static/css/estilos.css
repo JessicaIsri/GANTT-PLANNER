@@ -919,6 +919,37 @@
 
 /*////////////////////////////////////*/
 
+/*RELATÓRIO*/
+
+#draganddrop_projetos{
+    width: 595px;
+    height: 200px;
+}
+
+#draganddrop_projetos #rel_projetos{
+    width: 270px;
+    height: 300px;
+    margin-left: 10px;
+    background-color: #68BAE8;
+    float: left;
+}
+
+
+#draganddrop_projetos #escolhe_projetos{
+    width: 270px;
+    height: 300px;
+    margin-left: 10px;
+    background-color: #68BAE8;
+    float: right;
+}
+
+#abreRelatorio #btn_dashboard{
+    float: right;
+    margin-top: 50px;
+}
+
+
+/*////////////////////////////////////*/
 
 /*CUSTOM GANTT*/
 
