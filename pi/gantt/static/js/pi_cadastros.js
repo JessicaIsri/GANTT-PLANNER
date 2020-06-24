@@ -27,7 +27,10 @@ URLGETPROJETOS = 'http://localhost:8000/project/';
 URLGETTAREFAS = 'http://localhost:8000/task/';
 //**CADASTRO DE DISTRIBUICAO DE PESSOAS EM TAREFAS*////
 URLGETDISTRIBUICAO = 'http://localhost:8000/distribute/';
-
+//**CADASTRO DE HABILIDADES*////
+URLGETHABILIDADES = 'http://localhost:8000/habilidades/';
+//**CADASTRO DE DISTRIBUICAO DE HABILIDADES*////
+URLGETDISTRHABILIDADES = 'http://localhost:8000/distributehab/';
 
 
 
@@ -60,6 +63,91 @@ function cadastrarHabilidades(){
     dialogCadastro.showModal();
 }
 
+function fecharCadastroHabilidade(){
+    dialogCadastro.close();
+    dialogCadastro = document.getElementById("abreCadastroPessoas");
+    dialogPolyfill.registerDialog(dialogCadastro);
+    //limparCamposCadasHabilidade();
+}
+
+function mostrarHabilidades(){
+    dialogCadastro = document.getElementById("habilidades_cadastradas");
+    dialogPolyfill.registerDialog(dialogCadastro);
+    dialogCadastro.showModal();
+
+    xhrGetHabilidade = new XMLHttpRequest();
+    xhrGetHabilidade.open('GET', URLGETHABILIDADES, true);
+    xhrGetHabilidade.onreadystatechange = function(){
+        if(xhrGetHabilidade.readyState == 4){
+            if(xhrGetHabilidade.status == 200){
+                 
+               json_habilidades = (JSON.parse(xhrGetHabilidade.responseText));
+               document.getElementById("lista_habilidades_cadastradas").innerHTML = '';
+               for(i=0;i<json_habilidades.length;i++){
+
+                    linha = "<br><label id=habilidade"+[i]+">"+json_habilidades[i]['hab_nome']+" </label><button>X</button><br>";
+                   document.getElementById("lista_habilidades_cadastradas").innerHTML += linha;
+               }
+            
+            }else if(xhrGetHabilidade.status == 404){
+
+            }
+        }      
+    }
+    xhrGetHabilidade.send();
+}
+
+function fecharListaHabilidades(){
+    dialogCadastro.close();
+    dialogCadastro = document.getElementById("abreCadastroHabilidades");
+    dialogPolyfill.registerDialog(dialogCadastro);
+    
+}
+
+function getHabilidade(){
+    xhrGetHabilidade = new XMLHttpRequest();
+    xhrGetHabilidade.open('GET', URLGETHABILIDADES, true);
+    xhrGetHabilidade.onload = function(){
+        if(xhrGetHabilidade.readyState == 4){
+            if(xhrGetHabilidade.status == 201){
+                json_lista_habilidades = JSON.parse(xhrGetHabilidade.responseText);
+                console.log(json_lista_habilidades);
+                for(i = 0;i<json_lista_habilidades.length;i++){
+
+                    document.getElementById("lista_habilidades_cadastradas").insertAdjacentText += json_lista_habilidades[i]['hab_nome'];
+                }
+                
+            }
+        }
+    }
+    xhrGetHabilidade.send();
+
+}
+
+function gravarHabilidade(){
+
+    nome_habilidade = document.getElementById("nome_habilidade").value;
+    xhrPostHabilidade = new XMLHttpRequest();
+    xhrPostHabilidade.open("POST", URLGETHABILIDADES, true);
+    xhrPostHabilidade.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhrPostHabilidade.setRequestHeader("X-CSRFToken", csrftoken);
+    xhrPostHabilidade.setRequestHeader("withCredentials", 'True');    
+    xhrPostHabilidade.onload = function(){
+        if(xhrPostHabilidade.readyState == 4){
+            if(xhrPostHabilidade.status == 201){
+                getHabilidade();
+                
+            }
+        }
+    }
+
+    xhrPostHabilidade.send(JSON.stringify({
+        'hab_nome': nome_habilidade
+    }));
+}
+
+
+
 /**///////////////////////////////////////////////////////////////////////////////////*/
 
 /////////////////**INCLUSAO DE HABILIDADES*/////////////////////////////////////////////
@@ -68,6 +156,13 @@ function incluirHabilidades(){
     dialogCadastro = document.getElementById("abreInclusaoHabilidades");
     dialogPolyfill.registerDialog(dialogCadastro);
     dialogCadastro.showModal();
+}
+
+function fecharInclusaoHabilidade(){
+    dialogCadastro.close();
+    dialogCadastro = document.getElementById("abreCadastroPessoas");
+    dialogPolyfill.registerDialog(dialogCadastro);
+    //limparCamposCadasHabilidade();
 }
 
 /**///////////////////////////////////////////////////////////////////////////////////*/

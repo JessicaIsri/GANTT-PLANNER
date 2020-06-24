@@ -480,6 +480,12 @@
     margin-right: 30px;
 }
 
+#habilidades_cadastradas #lista_habilidades_cadastradas{
+    width: 350px;
+    height: 200px;
+    margin-left: 20px;
+}
+
 
 /*//////////////////////////////////////////*/
 
