@@ -79,12 +79,24 @@
     
 }
 
+.btn_shadow4_1{
+    width: 150px;
+    height: 35px;
+    border-radius: 6px;
+    background-color: white;
+    border-style: none;
+    color: #698FEB;
+    font-weight: 500;
+    font-family: monospace;
+    box-shadow: 0px 0px 5px #698FEB;
+    
+}
+
+
 .styleWord1 {
     color: #698FEB;
-    
+    font-weight: 450;
     font-family: monospace;
-    font-size: 11px;
-    margin-left: -10px;
 }
 /**/
 /*///////////////////////////////////*/
@@ -101,6 +113,16 @@
   border-radius:0px 20px 0px 20px;
     width: 600px;
     height: 550px;
+  
+}
+
+.abreCadastro_1{
+    border-style: inset;
+  border-width: 5px;
+  border-color: rgb(83, 97, 129);
+  border-radius:0px 20px 0px 20px;
+    width: 400px;
+    height: 350px;
   
 }
 
@@ -540,6 +562,9 @@
 
 /*CADASTRO DE PESSOAS*/
 
+#btn_cadasHabilidades{
+    margin-left: 250px;
+}
 
 #cadastroPessoas{
     width: 500px;
@@ -753,6 +778,15 @@
     width: 30px;
     margin-left: 5px;
     
+}
+
+#cadastro_tarefa #lb_progressotarefa{
+    margin-left: 10px;
+}
+
+#cadastro_tarefa #progressotarefa{
+    width: 80px;
+    margin-left: 10px;
 }
 
 #cadastro_tarefa #nomeTarefa{
