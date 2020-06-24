@@ -109,7 +109,7 @@
     </div>
     
      <!------------------------------------------------------------->
-    <!--- CADASTRO DE PESSOAS -->
+    <!--- CADASTRO DE PESSOAS --------------------------------------->
     <dialog id="abreCadastroPessoas" class="abreCadastro" role="dialog"> 
         <div id="bloco_superior" class="boxShadow1">
                <button id="btn_fechar" class="btn_shadow2" onclick="fecharCadastroPessoa()">[X]Fechar</button>
@@ -119,12 +119,46 @@
        <button id="btn_cadasHabilidades" type="button" onclick="cadastrarHabilidades();" class="btn_shadow4_1">Cadastrar Habilidades</button> 
        <button id="btn_incluirHabilidades" type="button" onclick="incluirHabilidades();" class="btn_shadow4_1">Incluir Habilidades</button>
         <br><br>
+        <!--CADASTRAR HABILIDADES-------->
         <dialog id="abreCadastroHabilidades" role="dialog" class="abreCadastro_1">
-            
-
+            <div id="bloco_superior_1" class="boxShadow1">
+                <button id="btn_fechar_1" class="btn_shadow2" onclick="fecharCadastroHabilidade()">[X]Fechar</button>
+             <h1 class="styleWord1">Cadastro de Habilidades</h1> 
+         </div>
+            <div id="CadastroHabilidades">
+                <br><br><br>
+                <label id="lb_nome_habilidade" for="nome_habilidade">Nome habilidade: <input id="nome_habilidade" type='text' name="hab_nome"></label>
+                <br><br><br>
+                <button id="btn_gravarHabilidade" type="submit" class="btn_shadow2" >Gravar</button>
+                <button id="btn_mostrarHabilidades" type="submit" class="btn_shadow2">Mostrar habilidades</button>
+            </div>
 
 
         </dialog>
+        <!--------------------------->
+
+        <!--INCLUIR HABILIDADES-------->
+        <dialog id="abreInclusaoHabilidades" role="dialog" class="abreCadastro_1">
+                <div id="bloco_superior_1" class="boxShadow1">
+                    <button id="btn_fechar_1" class="btn_shadow2" onclick="fecharInclusaoHabilidade()">[X]Fechar</button>
+                 <h1 class="styleWord1">Inclusão de Habilidades</h1> 
+             </div>
+                <div id="InclusaoHabilidades">
+                    <br><br><br>
+                    <label id="lb_nome_pessoa">Selecione a pessoa: </label>
+                    <select id="nome_pessoa"></select>
+                    <br>
+                    <br>
+                    <label id="lb_seleciona_nome_habilidade">Selecione a habilidade: </label>
+                    <select id="seleciona_nome_habilidade"></select>
+                    <br><br><br>
+                    <button id="btn_gravarInclusao" type="submit" class="btn_shadow2" >Gravar</button>
+                    <button id="btn_mostrarInclusoesCadastradas" type="submit" class="btn_shadow2">Mostrar cadastrados</button>
+                </div>
+    
+    
+            </dialog>
+        <!--------------------------->
        <div id='cadastroPessoas'>
            
           
