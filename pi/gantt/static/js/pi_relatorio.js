@@ -13,6 +13,7 @@ function clicaRelatorio(){
 
 function fecharRelatorio(){
     dialogCadastro.close();
+    document.getElementById("projetos_dashboard").innerHTML = '';
 }
 
 function carregaProjetos(){
@@ -44,10 +45,18 @@ function dragOver(ev) {
     return false;
 }
 function dragDrop(acao) {
-    produtoSelecionado = acao.dataTransfer.getData("ID");
-    acao.target.appendChild(document.getElementById(produtoSelecionado));
+    projetoSelecionado = acao.dataTransfer.getData("ID");
+    acao.target.appendChild(document.getElementById(projetoSelecionado));
 }
 function dragEnd(acao) {
     acao.dataTransfer.clearData("ID");
     return true;
+}
+
+
+function gerarDashboard(){
+    projetos_dashboard = document.getElementById("projetos_dashboard")
+
+    result = projetos_dashboard.split("P");
+    console.log(result);
 }
