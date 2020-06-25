@@ -92,6 +92,15 @@
     
 }
 
+/*BOTÃO CRIADO PARA O RELATÓRIO - BTN PROJETOS*/
+.btn_shadow4_2{
+    width: 270px;
+    height: 35px;
+    border-style: none;
+    font-weight: 500;
+    font-family: monospace;   
+}
+
 
 .styleWord1 {
     color: #698FEB;
@@ -930,23 +939,42 @@
     width: 270px;
     height: 300px;
     margin-left: 10px;
-    background-color: #68BAE8;
     float: left;
 }
+
+#draganddrop_projetos #rel_projetos #projetos_cadastrados{
+    border-color: #68BAE8;
+    border-style: dashed;
+    width: 270px;
+    height: 280px;
+    overflow: auto;
+}
+
 
 
 #draganddrop_projetos #escolhe_projetos{
     width: 270px;
     height: 300px;
     margin-left: 10px;
-    background-color: #68BAE8;
     float: right;
 }
+
+#draganddrop_projetos #escolhe_projetos #projetos_dashboard{
+    border-color: #68BAE8;
+    border-style: dashed;
+    width: 270px;
+    height: 280px;
+    overflow: auto;
+}
+
+
+
 
 #abreRelatorio #btn_dashboard{
     float: right;
     margin-top: 50px;
 }
+
 
 
 /*////////////////////////////////////*/
