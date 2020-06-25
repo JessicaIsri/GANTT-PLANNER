@@ -97,6 +97,7 @@ function gerarDashboard(){
     getProjetosDashboard();
     getTarefasDashboard();
     getPessoasDashboard();
+    getPessoasDistTarefas();
     dadosDashboard();
 
     
@@ -171,11 +172,30 @@ function getPessoasDashboard(){
     xhrGetPessoas.send();
 }
 
+function getPessoasDistTarefas(){
+    xhrGetPessoasDistTarefas = new XMLHttpRequest();
+
+    xhrGetPessoasDistTarefas.open('GET', URLGETDISTRIBUICAO, true);
+
+    xhrGetPessoasDistTarefas.onreadystatechange = function(){
+        if(xhrGetPessoasDistTarefas.readyState == 4){
+            if(xhrGetPessoasDistTarefas.status == 200){
+                json_get_pessoas_distr_tarefas = JSON.parse(xhrGetPessoasDistTarefas.responseText);
+
+                dadosDashboard(null , null, null, json_get_pessoas_distr_tarefas);
+                
+            }
+        }
+    }
+    xhrGetPessoasDistTarefas.send();
+}
+
 recebe_dados_projetos = [];
 recebe_dados_tarefas = [];
 recebe_dados_pessoas = [];
+recebe_dados_pessoas_distr_tarefas = [];
 
-function dadosDashboard(json_get_projetos, json_get_tarefas, json_get_pessoas){
+function dadosDashboard(json_get_projetos, json_get_tarefas, json_get_pessoas, json_get_pessoas_distr_tarefas){
 
     if(json_get_projetos != null){
         recebe_dados_projetos = json_get_projetos;
@@ -188,20 +208,24 @@ function dadosDashboard(json_get_projetos, json_get_tarefas, json_get_pessoas){
         recebe_dados_pessoas = json_get_pessoas;
     }
 
+    if(json_get_pessoas_distr_tarefas != null){
+        recebe_dados_pessoas_distr_tarefas = json_get_pessoas_distr_tarefas;
+    }
+
+    console.log(recebe_dados_pessoas_distr_tarefas);
     document.getElementById('dashboard_projetos').innerHTML = '';
-    console.log("Projetos Dashboard"+projetos_dashboard+"");
+    //console.log("Projetos Dashboard"+projetos_dashboard+"");
     for(y=0; y<projetos_dashboard.length;y++){
         
     for(i=0; i<recebe_dados_projetos.length;i++){
         
         if(projetos_dashboard[y] == recebe_dados_projetos[i]['prj_nome']){
 
-                
+                /**CRIAR DIV PROJETO - GERAL */
                 linha_div_projeto = "<div id='prj"+recebe_dados_projetos[i]['prj_id']+"' class='view_projeto'></div>";
-                console.log(linha_div_projeto);
                 document.getElementById('dashboard_projetos').innerHTML +=  linha_div_projeto;
                 
-                
+                /**CRIAR DIV PROJETO - NOME PROJETO E DADOS */
                 linha_nome_projeto = "<label class='styleWord1'>"+recebe_dados_projetos[i]['prj_nome']+"</label>";
                 document.getElementById('prj'+recebe_dados_projetos[i]['prj_id']+'').innerHTML += linha_nome_projeto;
                 
@@ -211,19 +235,34 @@ function dadosDashboard(json_get_projetos, json_get_tarefas, json_get_pessoas){
                 for(x=0; x<recebe_dados_tarefas.length;x++){
 
                     if(recebe_dados_tarefas[x]['fk_prj_id'] == recebe_dados_projetos[i]['prj_id']){
-                    linha_div_tarefas = "<div id='dados_tarefa"+recebe_dados_projetos[i]['prj_id']+"_"+recebe_dados_tarefas[x]['trf_id']+"' class='class_dados_tarefa'></div>"
-                    document.getElementById('prj'+recebe_dados_projetos[i]['prj_id']+'').innerHTML += linha_div_tarefas;
+                    
+                        /**CRIAR DIV TAREFA - NOME TAREFA E DADOS */
+                        linha_div_tarefas = "<div id='dados_tarefa"+recebe_dados_projetos[i]['prj_id']+"_"+recebe_dados_tarefas[x]['trf_id']+"' class='class_dados_tarefa'></div>"
+                        document.getElementById('prj'+recebe_dados_projetos[i]['prj_id']+'').innerHTML += linha_div_tarefas;
 
-                    linha_dados_tarefa = "|<br>------><label id='lb_dados_tarefa"+recebe_dados_projetos[i]['prj_id']+"_"+recebe_dados_tarefas[x]['trf_id']+"'>NOME TAREFA: "+recebe_dados_tarefas[x]['trf_name']+"  --> Progresso: "+recebe_dados_tarefas[x]['trf_name']+" Interdependência: "+recebe_dados_tarefas[x]['trf_interdependencia']+" Data Início: "+recebe_dados_tarefas[x]['trf_datainicial']+" Data final: "+recebe_dados_tarefas[x]['trf_datafinal']+" Entregável: "+recebe_dados_tarefas[x]['trf_entregavel']+"</label>";
-                    document.getElementById("dados_tarefa"+recebe_dados_projetos[i]['prj_id']+"_"+recebe_dados_tarefas[x]['trf_id']+"").innerHTML += linha_dados_tarefa;
+                        linha_dados_tarefa = "|<br>------><label id='lb_dados_tarefa"+recebe_dados_projetos[i]['prj_id']+"_"+recebe_dados_tarefas[x]['trf_id']+"'>NOME TAREFA: "+recebe_dados_tarefas[x]['trf_name']+"  --> Progresso: "+recebe_dados_tarefas[x]['trf_name']+" Interdependência: "+recebe_dados_tarefas[x]['trf_interdependencia']+" Data Início: "+recebe_dados_tarefas[x]['trf_datainicial']+" Data final: "+recebe_dados_tarefas[x]['trf_datafinal']+" Entregável: "+recebe_dados_tarefas[x]['trf_entregavel']+"</label>";
+                        document.getElementById("dados_tarefa"+recebe_dados_projetos[i]['prj_id']+"_"+recebe_dados_tarefas[x]['trf_id']+"").innerHTML += linha_dados_tarefa;
 
+                    for(w=0;w<recebe_dados_pessoas_distr_tarefas.length;w++){
 
-                    for(z=0;z<recebe_dados_pessoas.length;z++){
+                        if(recebe_dados_tarefas[x]['trf_id'] == recebe_dados_pessoas_distr_tarefas[w]['fk_trf_id']){
+                        for(z=0;z<recebe_dados_pessoas.length;z++){
+                            if(recebe_dados_pessoas_distr_tarefas[w]['fk_pes_id'] == recebe_dados_pessoas[z]['pes_id']){
+
+                                /**CRIAR DIV PESSOA - NOME PESSOA E DADOS */
+                                linha_div_pessoas = "<div id='dados_pessoa"+recebe_dados_projetos[i]['prj_id']+"_"+recebe_dados_tarefas[x]['trf_id']+"_"+recebe_dados_pessoas[z]['pes_id']+"' class='class_dados_pessoa'></div>";
+                                document.getElementById("dados_tarefa"+recebe_dados_projetos[i]['prj_id']+"_"+recebe_dados_tarefas[x]['trf_id']+"").innerHTML += linha_div_pessoas;
+
+                                linha_dados_pessoa = "|<br>------><label id='lb_dados_pessoa"+recebe_dados_projetos[i]['prj_id']+"_"+recebe_dados_tarefas[x]['trf_id']+"_"+recebe_dados_pessoas[z]['pes_id']+"'>PESSOA ATRIBUÍDA: --> Nome Pessoa: "+recebe_dados_pessoas[z]['pes_nome']+" Habilidade: FALTA CONFIGURAR </label>";
+                                document.getElementById("dados_pessoa"+recebe_dados_projetos[i]['prj_id']+"_"+recebe_dados_tarefas[x]['trf_id']+"_"+recebe_dados_pessoas[z]['pes_id']+"").innerHTML += linha_dados_pessoa;
+
+                            }
 
                         }
-                    
+                    }
                     }
                 }
+            }
         }
     }
     }
