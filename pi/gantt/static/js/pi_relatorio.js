@@ -78,11 +78,11 @@ function dragEnd(acao) {
 
 /**TELA DASHBOARD */
 
-projetos_dashboard = [];
+
 
 function gerarDashboard(){
-    console.log(projetos_selecionados_id);
-    
+    console.log("Projetos selecionados Id: "+projetos_selecionados_id+"");
+    projetos_dashboard = [];
     for(i=0;i<projetos_selecionados_id.length;i++){
         proj_dashboard = document.getElementById('projetos_dashboard').querySelector('#'+projetos_selecionados_id[i]+'').innerText;
         if(proj_dashboard != null){
@@ -99,6 +99,7 @@ function gerarDashboard(){
     getPessoasDashboard();
     dadosDashboard();
 
+    
     /*for(i=0;i<projetos_dashboard.length;i++){
 
 
@@ -110,6 +111,7 @@ function fecharDashboard(){
     dialogCadastro.close();
     dialogCadastro = document.getElementById("abreRelatorio");
     dialogPolyfill.registerDialog(dialogCadastro);
+   
 }
 
 
@@ -186,29 +188,38 @@ function dadosDashboard(json_get_projetos, json_get_tarefas, json_get_pessoas){
         recebe_dados_pessoas = json_get_pessoas;
     }
 
-    console.log(recebe_dados_projetos);
-    console.log(recebe_dados_tarefas);
-    console.log(recebe_dados_pessoas);
-
-    for(i=0; i<recebe_dados_projetos.length;i++){
-        documento.getElementById('dashboard_projetos').innerHTML = '';
-        linha_projeto = "<div id='prj"+recebe_dados_projetos[i]['prj_id']+"' class='view_projeto'><label class='styleWord1'>"+recebe_dados_projetos[i]['prj_id']+"</label></div>"
-        documento.getElementById('dashboard_projetos').innerHTML +=  linha_projeto;
+    document.getElementById('dashboard_projetos').innerHTML = '';
+    console.log("Projetos Dashboard"+projetos_dashboard+"");
+    for(y=0; y<projetos_dashboard.length;y++){
         
-        documento.getElementById('prj'+recebe_dados_projetos[i]['prj_id']+'').innerHTML = '';
-        linha_dados_projeto = "<div id='dados_projeto"+recebe_dados_projetos[i]['prj_id']+"' class='class_dados_projeto'>|<br>------><label id='lb_dados_projeto"+recebe_dados_projetos[i]['prj_id']+"'>DADOS PROJETO --> Progresso: "+recebe_dados_projetos[i]['prj_progresso']+" Data Início: "+recebe_dados_projetos[i]['prj_datainicio']+" Prazo Entrega: "+recebe_dados_projetos[i]['prj_prazoentrega']+" Horas Desenvolvimento: "+recebe_dados_projetos[i]['prj_hrs_dev']+" Custo Projeto: "+recebe_dados_projetos[i]['prj_cost']+"</label></div>";
-        documento.getElementById('prj'+recebe_dados_projetos[i]['prj_id']+'').innerHTML += linha_dados_projeto;
+    for(i=0; i<recebe_dados_projetos.length;i++){
+        
+        if(projetos_dashboard[y] == recebe_dados_projetos[i]['prj_nome']){
 
-        for(x=0; x<recebe_dados_tarefas.length;x++){
-            
+                
+                linha_projeto = "<div id='prj"+recebe_dados_projetos[i]['prj_id']+"' class='view_projeto'></div>";
+                console.log(linha_projeto);
+                document.getElementById('dashboard_projetos').innerHTML +=  linha_projeto;
+                
+                
+                linha_nome_projeto = "<label class='styleWord1'>"+recebe_dados_projetos[i]['prj_nome']+"</label>";
+                document.getElementById('prj'+recebe_dados_projetos[i]['prj_id']+'').innerHTML += linha_nome_projeto;
+                
+                linha_dados_projeto = "<div id='dados_projeto"+recebe_dados_projetos[i]['prj_id']+"' class='class_dados_projeto'>|<br>------><label id='lb_dados_projeto"+recebe_dados_projetos[i]['prj_id']+"'>DADOS PROJETO --> Progresso: "+recebe_dados_projetos[i]['prj_progresso']+" Data Início: "+recebe_dados_projetos[i]['prj_datainicio']+" Prazo Entrega: "+recebe_dados_projetos[i]['prj_prazoentrega']+" Horas Desenvolvimento: "+recebe_dados_projetos[i]['prj_hrs_dev']+" Custo Projeto: "+recebe_dados_projetos[i]['prj_cost']+"</label></div>";
+                document.getElementById('prj'+recebe_dados_projetos[i]['prj_id']+'').innerHTML += linha_dados_projeto;
+
+                for(x=0; x<recebe_dados_tarefas.length;x++){
 
 
-            for(z=0;z<recebe_dados_pessoas.length;z++){
 
-            }
+                    for(z=0;z<recebe_dados_pessoas.length;z++){
+
+                        }
+                    
+                    }
         }
     }
-
+    }
 
 
 }
