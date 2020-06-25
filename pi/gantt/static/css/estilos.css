@@ -998,11 +998,25 @@
     width: 1070px;
     height: 500px;
     float: right;
-    margin-top: 20px;
     overflow: auto;
-
+    margin-top: -80px;
 }
 
+#dashboard_projetos .view_projeto{
+    border-color: coral;
+    border-style: groove;
+    width: 1050px;
+    height: 200px;
+    float: right;
+    
+    overflow: auto;
+    margin-right: 5px;
+}
+
+#abreDashboard #btn_fechardashboard{
+    float: right;
+    width: 70px;
+}
 /*////////////////////////////////////*/
 
 /*CUSTOM GANTT*/

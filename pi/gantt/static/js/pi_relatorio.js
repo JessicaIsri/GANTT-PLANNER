@@ -82,7 +82,7 @@ function gerarDashboard(){
     for(i=0;i<projetos_selecionados_id.length;i++){
         proj_dashboard = document.getElementById('projetos_dashboard').querySelector('#'+projetos_selecionados_id[i]+'').innerText;
         if(proj_dashboard != null){
-            console.log(proj_dashboard);
+            projetos_dashboard.push(proj_dashboard);
         }
     }
 
@@ -91,7 +91,16 @@ function gerarDashboard(){
     dialogCadastro.showModal();
 
 
+    /*for(i=0;i<projetos_dashboard.length;i++){
 
 
+    }*/
 
+
+}
+
+function fecharDashboard(){
+    dialogCadastro.close();
+    dialogCadastro = document.getElementById("abreDashboard");
+    dialogPolyfill.registerDialog(dialogCadastro);
 }
