@@ -197,9 +197,9 @@ function dadosDashboard(json_get_projetos, json_get_tarefas, json_get_pessoas){
         if(projetos_dashboard[y] == recebe_dados_projetos[i]['prj_nome']){
 
                 
-                linha_projeto = "<div id='prj"+recebe_dados_projetos[i]['prj_id']+"' class='view_projeto'></div>";
-                console.log(linha_projeto);
-                document.getElementById('dashboard_projetos').innerHTML +=  linha_projeto;
+                linha_div_projeto = "<div id='prj"+recebe_dados_projetos[i]['prj_id']+"' class='view_projeto'></div>";
+                console.log(linha_div_projeto);
+                document.getElementById('dashboard_projetos').innerHTML +=  linha_div_projeto;
                 
                 
                 linha_nome_projeto = "<label class='styleWord1'>"+recebe_dados_projetos[i]['prj_nome']+"</label>";
@@ -210,6 +210,12 @@ function dadosDashboard(json_get_projetos, json_get_tarefas, json_get_pessoas){
 
                 for(x=0; x<recebe_dados_tarefas.length;x++){
 
+                    if(recebe_dados_tarefas[x]['fk_prj_id'] == recebe_dados_projetos[i]['prj_id']){
+                    linha_div_tarefas = "<div id='dados_tarefa"+recebe_dados_projetos[i]['prj_id']+"_"+recebe_dados_tarefas[x]['trf_id']+"' class='class_dados_tarefa'></div>"
+                    document.getElementById('prj'+recebe_dados_projetos[i]['prj_id']+'').innerHTML += linha_div_tarefas;
+
+                    linha_dados_tarefa = "|<br>------><label id='lb_dados_tarefa"+recebe_dados_projetos[i]['prj_id']+"_"+recebe_dados_tarefas[x]['trf_id']+"'>NOME TAREFA: "+recebe_dados_tarefas[x]['trf_name']+"  --> Progresso: "+recebe_dados_tarefas[x]['trf_name']+" Interdependência: "+recebe_dados_tarefas[x]['trf_interdependencia']+" Data Início: "+recebe_dados_tarefas[x]['trf_datainicial']+" Data final: "+recebe_dados_tarefas[x]['trf_datafinal']+" Entregável: "+recebe_dados_tarefas[x]['trf_entregavel']+"</label>";
+                    document.getElementById("dados_tarefa"+recebe_dados_projetos[i]['prj_id']+"_"+recebe_dados_tarefas[x]['trf_id']+"").innerHTML += linha_dados_tarefa;
 
 
                     for(z=0;z<recebe_dados_pessoas.length;z++){
@@ -217,6 +223,7 @@ function dadosDashboard(json_get_projetos, json_get_tarefas, json_get_pessoas){
                         }
                     
                     }
+                }
         }
     }
     }
