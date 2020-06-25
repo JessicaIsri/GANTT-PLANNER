@@ -86,7 +86,12 @@ function gerarDashboard(){
         }
     }
 
-    
+    dialogCadastro = document.getElementById("abreDashboard");
+    dialogPolyfill.registerDialog(dialogCadastro);
+    dialogCadastro.showModal();
+
+
+
 
 
 }

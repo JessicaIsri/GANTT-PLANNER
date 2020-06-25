@@ -184,6 +184,20 @@
 
 /*///////////////////////////////////*/
 
+/*TELA DIALOG - DASHBOARD*/
+
+.abreDialogDashboard{
+    border-style: inset;
+  border-width: 5px;
+  border-color: rgb(83, 97, 129);
+  border-radius:0px 20px 0px 20px;
+    width: 1200px;
+    height: 550px;
+}
+
+
+/*///////////////////////////////////*/
+
 /*DEFININDO O ESTILO DA BARRA SUPERIOR*/
 #top {
     display: inline-flex;
@@ -976,7 +990,18 @@
     margin-top: 50px;
 }
 
+/*DASHBOARD*/
 
+#dashboard_projetos{
+    border-color: #698FEB;
+    border-style: groove;
+    width: 1070px;
+    height: 500px;
+    float: right;
+    margin-top: 20px;
+    overflow: auto;
+
+}
 
 /*////////////////////////////////////*/
 
