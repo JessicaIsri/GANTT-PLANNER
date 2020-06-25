@@ -14,6 +14,7 @@ function clicaRelatorio(){
 function fecharRelatorio(){
     dialogCadastro.close();
     document.getElementById("projetos_dashboard").innerHTML = '';
+    projetos_selecionados_id = [];
 }
 
 function carregaProjetos(){
@@ -32,6 +33,7 @@ function carregaProjetos(){
                     linha = "<button id='projeto_id"+json_projetos_cadastrados[i]['prj_id']+"' class='btn_shadow4_2' draggable=true ondragstart='return dragStart(event)' ondragend='return dragEnd(event)' style='background-color:"+json_projetos_cadastrados[i]['prj_color']+"'>"+json_projetos_cadastrados[i]['prj_nome']+"</button>";
                     document.getElementById("projetos_cadastrados").innerHTML += linha;
                 }
+
             }
         }
     }
@@ -44,19 +46,47 @@ function dragStart(ev) {
 function dragOver(ev) { 
     return false;
 }
+projetos_selecionados_id = [];
 function dragDrop(acao) {
     projetoSelecionado = acao.dataTransfer.getData("ID");
     acao.target.appendChild(document.getElementById(projetoSelecionado));
+    
+
+    if(acao.target.getAttribute('id') != 'projetos_dashboard'){
+        
+
+        for(i=0;i<projetos_selecionados_id.length;i++){
+            if(projetoSelecionado == projetos_selecionados_id[i]){
+                projetos_selecionados_id.splice([i], 1);
+        }
+        }
+        console.log(projetoSelecionado);
+    }else if(acao.target.getAttribute('id') == 'projetos_dashboard'){
+        projetos_selecionados_id.push(projetoSelecionado);
+    }
+    
+    
 }
 function dragEnd(acao) {
     acao.dataTransfer.clearData("ID");
     return true;
+
+    
 }
 
+projetos_dashboard = [];
 
 function gerarDashboard(){
-    projetos_dashboard = document.getElementById("projetos_dashboard")
+    console.log(projetos_selecionados_id);
+    
+    for(i=0;i<projetos_selecionados_id.length;i++){
+        proj_dashboard = document.getElementById('projetos_dashboard').querySelector('#'+projetos_selecionados_id[i]+'').innerText;
+        if(proj_dashboard != null){
+            console.log(proj_dashboard);
+        }
+    }
 
-    result = projetos_dashboard.split("P");
-    console.log(result);
+    
+
+
 }
