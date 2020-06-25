@@ -1013,6 +1013,23 @@
     margin-right: 5px;
 }
 
+#dashboard_projetos .view_projeto .class_dados_projeto{
+    margin-left: 30px;
+}
+
+#dashboard_projetos .view_projeto .class_dados_projeto #lb_dados_projeto{
+    width: 700px;
+}
+
+#dashboard_projetos .view_projeto .class_dados_tarefa{
+    margin-left: 60px;
+}
+
+#dashboard_projetos .view_projeto .class_dados_pessoa{
+    margin-left: 100px;
+}
+
+
 #abreDashboard #btn_fechardashboard{
     float: right;
     width: 70px;
