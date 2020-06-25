@@ -98,7 +98,8 @@
     height: 35px;
     border-style: none;
     font-weight: 500;
-    font-family: monospace;   
+    font-family: monospace;
+    display: inline;    
 }
 
 
