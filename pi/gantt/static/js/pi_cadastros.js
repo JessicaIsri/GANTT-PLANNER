@@ -1648,6 +1648,79 @@ function expandeTrf(nomeBtn){
 /*GET AND POST - API*////////////////////////////////////////////////////////////////////
 
 ////DATALIST
+
+function carregaDatalistProjetos(){
+
+    xhrCarregaDatalistProjeto = new XMLHttpRequest();
+    xhrCarregaDatalistProjeto.open("GET", URLGETPROJETOS, true);
+    xhrCarregaDatalistProjeto.onreadystatechange = function(){
+        if(xhrCarregaDatalistProjeto.readyState == 4){
+            if(xhrCarregaDatalistProjeto.status == 200){
+            
+            json_datalist_projetos = JSON.parse(xhrCarregaDatalistProjeto.responseText);
+            
+            
+            document.getElementById("listaProjetos").innerHTML = '';
+            linhaOption = "<option></option>"
+            document.getElementById("listaProjetos").innerHTML += linhaOption;
+
+            for(i=0;i<json_datalist_projetos.length;i++){
+                linhaOption = "<option>"+json_datalist_projetos[i]['prj_nome']+"</option>"
+                document.getElementById("listaProjetos").innerHTML += linhaOption;
+            }
+
+            carregaDatalistInterdependencia(json_datalist_projetos);
+
+            }else if(xhrCarregaDatalistProjeto.status == 404){}
+        }
+}
+xhrCarregaDatalistProjeto.send();
+}
+
+recebe_dados_projetos = [];
+function carregaDatalistInterdependencia(json_datalist_projetos){
+
+    if(json_datalist_projetos != null){
+        recebe_dados_projetos = json_datalist_projetos;
+    }
+    console.log(recebe_dados_projetos);
+    cod_projeto_datalist = '';
+    xhrCarregaDatalistInterdependencia = new XMLHttpRequest();
+    xhrCarregaDatalistInterdependencia.open("GET", URLGETTAREFAS, true);
+    xhrCarregaDatalistInterdependencia.onreadystatechange = function(){
+        if(xhrCarregaDatalistInterdependencia.readyState == 4){
+            if(xhrCarregaDatalistInterdependencia.status == 200){
+            
+            json_datalist_interdependencia = JSON.parse(xhrCarregaDatalistInterdependencia.responseText);
+            
+            nomeprojetodatalist = document.getElementById("listaProjetos").value;
+            
+            for(i=0;i<recebe_dados_projetos.length;i++){
+                if(nomeprojetodatalist == recebe_dados_projetos[i]['prj_nome']){
+                    cod_projeto_datalist = recebe_dados_projetos[i]['prj_id'];
+                }
+            }
+
+            
+            
+            document.getElementById("listaInterdependencia").innerHTML = '';
+            linhaOption = "<option></option>"
+            document.getElementById("listaInterdependencia").innerHTML += linhaOption;
+            
+            for(i=0;i<json_datalist_interdependencia.length;i++){
+                if(cod_projeto_datalist == json_datalist_interdependencia[i]['fk_prj_id']){
+                linhaOption = "<option>"+json_datalist_interdependencia[i]['trf_name']+"</option>"
+                document.getElementById("listaInterdependencia").innerHTML += linhaOption;
+                }
+            }
+            }else if(xhrCarregaDatalistInterdependencia.status == 404){}
+        }
+}
+xhrCarregaDatalistInterdependencia.send();
+
+}
+
+/*
 function carregaDatalistProjetos(){
     
 
@@ -1769,7 +1842,7 @@ for(i=0;i<recebe_interdependencias.length;i++){
 
 }
 
-
+*/
 ///////////
 
 function preencheCamposCadasTarefa(json){
@@ -1784,7 +1857,7 @@ function preencheCamposCadasTarefa(json){
     
 
 }
-
+/*
 function getNomeProjeto(){
     
     xhrGetProjeto = new XMLHttpRequest();
@@ -1808,7 +1881,7 @@ function getNomeProjeto(){
     }
     xhrGetProjeto.send();
     
-}
+}*/
 
 function getAllTasks(){
     codTarefa = document.getElementById("codTarefa").value;

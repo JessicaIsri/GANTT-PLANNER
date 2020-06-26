@@ -923,10 +923,16 @@
 }
 
 
-#cadastro_tarefa #selecionaProjeto{
+#cadastro_tarefa #listaProjetos{
      width: 250px;
     margin-bottom: 10px;
 }
+
+#cadastro_tarefa #listaInterdependencia{
+    width: 250px;
+   margin-bottom: 10px;
+}
+
 
 #cadastro_tarefa #interdependencia{
      width: 200px;
