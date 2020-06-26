@@ -16,7 +16,8 @@ function ganttProjetos(){
     xhrGetProjeto.onreadystatechange = function(){
         if(xhrGetProjeto.readyState == 4){
             if(xhrGetProjeto.status == 200){
-                jsonProjetosGantt = (JSON.parse(xhrGetProjeto.responseText));                         
+                jsonProjetosGantt = (JSON.parse(xhrGetProjeto.responseText)); 
+
             }else if(xhrGetProjeto.status == 404){
 
             }
@@ -62,6 +63,7 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
             recebe_tarefaGantt = jsonTarefasGantt;
         }
         
+       
 
         if(recebe_projetoGantt != ''){
             if(recebe_tarefaGantt != ''){

@@ -33,7 +33,7 @@
         </div>
 
          <h1>Gantt Planner - by PHPython</h1>
-        <img id="imgbtn_play" src="{% static 'images/img_play.png' %}">
+         <button id="btn_salvarplanning" class="btn_shadow2">SALVAR</button>   
         <button id="btn_compartilhar" class="btn_shadow2" onclick="pegaDIalog()">COMPARTILHAR</button>
 	</div>
     
@@ -51,7 +51,8 @@
               
         
         <img id="imgbtn_download" src="{% static 'images/img_relatorio.png' %}" onclick="clicaRelatorio();">
-        <button id="btn_salvarplanning" class="btn_shadow2" onclick="ganttProjetos()">SALVAR</button>    
+        <img id="imgbtn_play" onclick="ganttProjetos()" src="{% static 'images/img_play.png' %}">
+         
         
     </div>
 

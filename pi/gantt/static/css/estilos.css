@@ -269,19 +269,18 @@
     font-family: chandas;
 }
 
-
-#top #imgbtn_play{
-    justify-content: flex-end;
-    width: 30px;
-    height: 30px;
-    margin-top: 18px;
-    margin-left: 620px;
-}
-
 #top #btn_compartilhar{
     justify-content: flex-end;
     margin-top: 9px;
     margin-left: 20px;
+}
+
+#top #btn_salvarplanning{
+    justify-content: flex-end;
+    margin-top: 10px;
+    width: 110px;
+   margin-left: 500px;
+    
 }
 
 
@@ -326,7 +325,7 @@
     height: 30px;
     margin-top: 13px;
     margin-right: 85px;
-    margin-left: -100px;
+    margin-left: -85px;
     
 }
 
@@ -370,12 +369,16 @@
     
 }
 
-
-
-#top_central #btn_salvarprojeto{
-    margin-top: 10px;
-    width: 80px;
+#top_central #imgbtn_play{
+    justify-content: flex-end;
+    width: 30px;
+    height: 30px;
+    margin-top: 15px;
+    
+    
 }
+
+
 
 /*///////////////////////////////////*/
 
@@ -454,8 +457,6 @@
     color: red;
 
 }
-
-
 
 #right_center #btn_datas{
     margin-left: 25px;
