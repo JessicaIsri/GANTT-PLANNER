@@ -1030,40 +1030,70 @@
 /*DASHBOARD*/
 
 #dashboard_projetos{
-    border-color: #698FEB;
-    border-style: groove;
     width: 1070px;
     height: 500px;
     float: right;
     overflow: auto;
-    margin-top: -80px;
+    margin-top: -70px;
 }
 
 #dashboard_projetos .view_projeto{
-    border-color: coral;
-    border-style: groove;
-    width: 1050px;
-    height: 200px;
-    float: right;
-    
+    border-style: inset;
+    border-width: 2px;
+    border-radius:0px 20px 0px 20px;
+    border-style: outset;
+    width: 1030px;
+    height: 300px;
     overflow: auto;
     margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-optical-sizing: inherit;
+}
+
+#dashboard_projetos .class_nome_projeto{
+    width: 700px;
+    font-size: 25px;
+    margin-left: 50px;
+    
+}
+
+#dashboard_projetos #div_cor_projeto{
+    width: 15px;
+    height: 15px;
+    margin-top: 5px;
+    margin-left: 10px;
+    
+    
 }
 
 #dashboard_projetos .view_projeto .class_dados_projeto{
-    margin-left: 30px;
+    margin-left: 60px;
+    margin-top: 10px;
+    font-size: 13px;
 }
 
 #dashboard_projetos .view_projeto .class_dados_projeto #lb_dados_projeto{
     width: 700px;
+    margin-top: 10px;
+    font-size: 13px;
 }
 
 #dashboard_projetos .view_projeto .class_dados_tarefa{
     margin-left: 60px;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+#dashboard_projetos .view_projeto .class_dados_tarefa #lb_nome_tarefa_dashboard{
+    font-weight: 600;
 }
 
 #dashboard_projetos .view_projeto .class_dados_pessoa{
     margin-left: 100px;
+    margin-top: 10px;
+    font-size: 13px;
 }
 
 
