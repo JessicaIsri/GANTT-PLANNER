@@ -62,12 +62,12 @@ class tb_pes_Trf(models.Model):
 
 
 class tb_habilidades(models.Model):
-    hab_id = models.IntegerField('id', primary_key=True)
+    hab_id = models.AutoField('id', primary_key=True)
     hab_nome = models.CharField('habilidade', max_length=120)
 
 
 class tb_hab_pes(models.Model):
-    pes_trf_id = models.IntegerField('id', primary_key=True)
+    pes_trf_id = models.AutoField('id', primary_key=True)
     fk_pes_id = models.ForeignKey(tb_Pessoa, on_delete=models.CASCADE)
     fk_hab_id = models.ForeignKey(tb_habilidades, on_delete=models.CASCADE)
 

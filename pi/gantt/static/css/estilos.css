@@ -496,7 +496,10 @@
 
 #CadastroHabilidades #nome_habilidade{
     margin-left: 20px;
+    
 }
+
+
 
 #CadastroHabilidades #btn_gravarHabilidade{
     width: 100px;
@@ -505,10 +508,21 @@
 }
 
 #habilidades_cadastradas #lista_habilidades_cadastradas{
-    width: 350px;
-    height: 200px;
-    margin-left: 20px;
+    width: 400px;
+    height: 300px;
+    margin-left: 10px;
+    margin-top: 10px;
+    overflow: auto;
+
 }
+
+#habilidades_cadastradas #lista_habilidades_cadastradas .class_habilidades{
+    margin-left: 20px;
+    margin-top: 15px;
+    display: inline-block;
+    font-family: monospace;
+}
+
 
 
 /*//////////////////////////////////////////*/

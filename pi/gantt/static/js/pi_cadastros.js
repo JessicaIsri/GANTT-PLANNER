@@ -75,26 +75,8 @@ function mostrarHabilidades(){
     dialogPolyfill.registerDialog(dialogCadastro);
     dialogCadastro.showModal();
 
-    xhrGetHabilidade = new XMLHttpRequest();
-    xhrGetHabilidade.open('GET', URLGETHABILIDADES, true);
-    xhrGetHabilidade.onreadystatechange = function(){
-        if(xhrGetHabilidade.readyState == 4){
-            if(xhrGetHabilidade.status == 200){
-                 
-               json_habilidades = (JSON.parse(xhrGetHabilidade.responseText));
-               document.getElementById("lista_habilidades_cadastradas").innerHTML = '';
-               for(i=0;i<json_habilidades.length;i++){
-
-                    linha = "<br><label id=habilidade"+[i]+">"+json_habilidades[i]['hab_nome']+" </label><button>X</button><br>";
-                   document.getElementById("lista_habilidades_cadastradas").innerHTML += linha;
-               }
-            
-            }else if(xhrGetHabilidade.status == 404){
-
-            }
-        }      
-    }
-    xhrGetHabilidade.send();
+    getHabilidade();
+    
 }
 
 function fecharListaHabilidades(){
@@ -107,26 +89,38 @@ function fecharListaHabilidades(){
 function getHabilidade(){
     xhrGetHabilidade = new XMLHttpRequest();
     xhrGetHabilidade.open('GET', URLGETHABILIDADES, true);
-    xhrGetHabilidade.onload = function(){
+    xhrGetHabilidade.onreadystatechange = function(){
         if(xhrGetHabilidade.readyState == 4){
-            if(xhrGetHabilidade.status == 201){
-                json_lista_habilidades = JSON.parse(xhrGetHabilidade.responseText);
-                console.log(json_lista_habilidades);
-                for(i = 0;i<json_lista_habilidades.length;i++){
+            if(xhrGetHabilidade.status == 200){
+                 
+               json_habilidades = (JSON.parse(xhrGetHabilidade.responseText));
+               document.getElementById("lista_habilidades_cadastradas").innerHTML = '';
+               for(i=0;i<json_habilidades.length;i++){
 
-                    document.getElementById("lista_habilidades_cadastradas").insertAdjacentText += json_lista_habilidades[i]['hab_nome'];
-                }
-                
+                    linha = "<label class='class_habilidades' id='habilidade"+json_habilidades[i]['hab_id']+"'>"+json_habilidades[i]['hab_nome']+" <button id='btn_delHab"+json_habilidades[i]['hab_id']+"' onclick='deleteHabilidade(this.id)'>X</button> </label>";
+                   document.getElementById("lista_habilidades_cadastradas").innerHTML += linha;
+               }
+            
+            }else if(xhrGetHabilidade.status == 404){
+
             }
-        }
+        }      
     }
     xhrGetHabilidade.send();
-
 }
 
 function gravarHabilidade(){
 
     nome_habilidade = document.getElementById("nome_habilidade").value;
+
+    if(nome_habilidade == ""){
+
+        
+       alert("Campo nome habilidade deve ser preenchido!");
+
+
+    }else{
+
     xhrPostHabilidade = new XMLHttpRequest();
     xhrPostHabilidade.open("POST", URLGETHABILIDADES, true);
     xhrPostHabilidade.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -144,9 +138,29 @@ function gravarHabilidade(){
     xhrPostHabilidade.send(JSON.stringify({
         'hab_nome': nome_habilidade
     }));
+    }
+    document.getElementById("nome_habilidade").value = '';
 }
 
 
+function deleteHabilidade(btn_id){
+    console.log(btn_id);
+    novo_id = btn_id.substr(10);
+
+    
+
+    xhrDeleteHabilidade = new XMLHttpRequest();
+    xhrDeleteHabilidade.open('DELETE', URLGETHABILIDADES+novo_id, true);
+    xhrDeleteHabilidade.onreadystatechange = function(){
+        if(xhrDeleteHabilidade.readyState == 4){
+            if(xhrDeleteHabilidade.status == 204){
+                getHabilidade();
+            }
+        }
+    }
+    xhrDeleteHabilidade.send();
+
+}
 
 /**///////////////////////////////////////////////////////////////////////////////////*/
 
