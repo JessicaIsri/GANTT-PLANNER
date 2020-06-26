@@ -11,12 +11,13 @@
     
     
       <script type="text/javascript" src="{% static 'js/frappe-gantt.min.js' %}"></script>
-      <script type="text/javascript" src="{% static 'js/dialog-polyfill.js' %}"></script>  
+      <script type="text/javascript" src="{% static 'js/dialog-polyfill.js' %}"></script> 
+      <script type="text/javascript" src="{% static 'js/pi_urls_api.js' %}"></script> 
          <script type="text/javascript" src="{% static 'js/pi_cadastros.js' %}"></script>
          <script type="text/javascript" src="{% static 'js/pi_relatorio.js' %}"></script>
          <script type="text/javascript" src="{% static 'js/pi_view.js' %}"></script>
          <script type="text/javascript" src="{% static 'js/pi_gantt.js' %}"></script>
-         
+         <script type="text/javascript" src="{% static 'js/pi_windowonload.js' %}"></script>
         </head>
 <body>
 	<div id="top" class="boxShadow1">
@@ -75,7 +76,7 @@
 			<div id="right_center" class="box">
                 
                 <div id="pessoas_top">
-                    <button id="btn_pessoas" class="btn_shadow2" onclick="expandePessoas()">PESSOAS</button>
+                    <button id="btn_pessoas" class="btn_shadow2" onclick="expandePessoas()">PESSOAS / HORAS DISPONÍVEIS</button>
                     <div id="pessoas_list" class="boxShadow1"> 
                         
                     </div>
@@ -86,13 +87,13 @@
                     <div id="datas_list" class="boxShadow1"> 
                         <br>
                         <label class="styleWord1">PRAZO: </label>
-                        <label id="dt_prazo" class="styleWord1"></label>
+                        <label id="dt_prazo" class="styleWord1_2"></label>
                         <br><br>
                         <label class="styleWord1">INICIO:</label>
-                        <label id="dt_inicial" class="styleWord1"></label>
+                        <label id="dt_inicial" class="styleWord1_2"></label>
                         <br><br>
                         <label class="styleWord1">FINAL:</label>
-                        <label id="dt_final" class="styleWord1"></label>
+                        <label id="dt_final" class="styleWord1_2"></label>
                         
                     </div>
                 </div>
@@ -200,9 +201,9 @@
            <br><br>
        
            <button id="btn_novapessoa" type="submit" class="btn_shadow2" onclick="novaPessoa()">Novo</button>       
-           <button id="btn_salvarpessoa" type="submit" class="btn_shadow2" onclick="postPessoa()">Gravar</button>
-           <button id="btn_atualizarCadasPessoa" type="submit" class="btn_shadow2" onclick="putPessoa()">Atualizar</button>
-           <button id="btn_excluirCadasPessoa"  type="submit" class="btn_shadow2" onclick="deletePessoa()">Excluir</button>
+           <button id="btn_salvarpessoa" type="submit" class="btn_shadow2" onclick="postPessoa(), getPessoas_paramenupessoas()">Gravar</button>
+           <button id="btn_atualizarCadasPessoa" type="submit" class="btn_shadow2" onclick="putPessoa(), getPessoas_paramenupessoas()">Atualizar</button>
+           <button id="btn_excluirCadasPessoa"  type="submit" class="btn_shadow2" onclick="deletePessoa(), getPessoas_paramenupessoas()">Excluir</button>
            <button id="btn_cancelarCadasPessoa" type="submit" class="btn_shadow2" onclick="cancelarCadasPessoa()">Cancelar</button>
            
        </div>

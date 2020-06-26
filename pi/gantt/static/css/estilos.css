@@ -92,6 +92,12 @@
     
 }
 
+.styleWord1_2{
+    color: #698FEB;
+    font-weight: 200;
+    font-family: monospace;
+}
+
 /*BOTÃO CRIADO PARA O RELATÓRIO - BTN PROJETOS*/
 .btn_shadow4_2{
     width: 270px;
@@ -103,7 +109,7 @@
 }
 
 
-.styleWord1 {
+.styleWord1{
     color: #698FEB;
     font-weight: 450;
     font-family: monospace;
@@ -435,17 +441,21 @@
     margin-left: 27px;
     margin-top: 3px;
     overflow:auto;
-    
+}
+
+#right_center #pessoas_top #pessoas_list #lb_pessoa_hd{ 
+    width: 130px;
+    margin-left: 5px;
+    margin-top: 10px;
     
 }
 
-#right_center #pessoas_top #pessoas_list label{
-    margin-left: 50px;
-    width: 80px;
-    overflow:auto;
-    display: inline-grid;
-    
+#right_center #pessoas_top #pessoas_list #lb_pessoa_hd #lb_horasdispo_pes{
+    color: red;
+
 }
+
+
 
 #right_center #btn_datas{
     margin-left: 25px;
@@ -460,9 +470,26 @@
 }
 
 #right_center #datas #datas_list label{
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
+#right_center #datas #datas_list #dt_prazo{
+    font-size: 12px;
+    margin-left: -5px;
+    color: red;
+}
+
+#right_center #datas #datas_list #dt_inicial{
+    font-size: 12px;
+    margin-left: -5px;
+    color: red;
+}
+
+#right_center #datas #datas_list #dt_final{
+    font-size: 12px;
+    margin-left: -5px;
+    color: red;
+}
 
 
 
