@@ -67,9 +67,12 @@ class tb_habilidades(models.Model):
 
 
 class tb_hab_pes(models.Model):
-    pes_trf_id = models.AutoField('id', primary_key=True)
+    pes_hab_id = models.AutoField('id', primary_key=True)
     fk_pes_id = models.ForeignKey(tb_Pessoa, on_delete=models.CASCADE)
     fk_hab_id = models.ForeignKey(tb_habilidades, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (("fk_pes_id", "fk_hab_id"),)
 
 class tbTeste(models.Model):
     teste = models.CharField(max_length=1)

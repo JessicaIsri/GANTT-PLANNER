@@ -170,6 +170,8 @@ function incluirHabilidades(){
     dialogCadastro = document.getElementById("abreInclusaoHabilidades");
     dialogPolyfill.registerDialog(dialogCadastro);
     dialogCadastro.showModal();
+    selectPessoas();
+    selectHabilidades();
 }
 
 function fecharInclusaoHabilidade(){
@@ -177,6 +179,202 @@ function fecharInclusaoHabilidade(){
     dialogCadastro = document.getElementById("abreCadastroPessoas");
     dialogPolyfill.registerDialog(dialogCadastro);
     //limparCamposCadasHabilidade();
+}
+
+function selectPessoas(){
+    xhrSelectPessoas = new XMLHttpRequest();
+    xhrSelectPessoas.open('GET', URLGETPESSOAS, true);
+    xhrSelectPessoas.onreadystatechange = function(){
+        if(xhrSelectPessoas.readyState == 4){
+            if(xhrSelectPessoas.status == 200){
+                json_select_pessoas = JSON.parse(xhrSelectPessoas.responseText);
+
+                document.getElementById("nome_pessoa").innerHTML = '';
+                document.getElementById("nome_pessoa_1").innerHTML = '';
+                linhaOption = "<option></option>"
+                document.getElementById("nome_pessoa").innerHTML += linhaOption;
+                document.getElementById("nome_pessoa_1").innerHTML += linhaOption;
+
+                for(i=0;i<json_select_pessoas.length;i++){
+                    linhaOption = "<option>"+json_select_pessoas[i]['pes_nome']+"</option>"
+                    document.getElementById("nome_pessoa").innerHTML += linhaOption;
+
+                    document.getElementById("nome_pessoa_1").innerHTML += linhaOption;
+                }
+
+                selec_pessoas_habilidades(json_select_pessoas, null);
+            }
+        }
+    }
+    xhrSelectPessoas.send();
+}
+
+function selectHabilidades(){
+    xhrSelectHabilidades = new XMLHttpRequest();
+    xhrSelectHabilidades.open('GET', URLGETHABILIDADES, true);
+    xhrSelectHabilidades.onreadystatechange = function(){
+        if(xhrSelectHabilidades.readyState == 4){
+            if(xhrSelectHabilidades.status == 200){
+                json_select_habilidades = JSON.parse(xhrSelectHabilidades.responseText);
+                document.getElementById("seleciona_nome_habilidade").innerHTML = '';
+                linhaOption = "<option></option>"
+                    document.getElementById("seleciona_nome_habilidade").innerHTML += linhaOption;
+                for(i=0;i<json_select_habilidades.length;i++){
+                    linhaOption = "<option>"+json_select_habilidades[i]['hab_nome']+"</option>"
+                    document.getElementById("seleciona_nome_habilidade").innerHTML += linhaOption;
+                }
+
+                selec_pessoas_habilidades(null, json_select_habilidades);
+            }
+        }
+    }
+    xhrSelectHabilidades.send();
+}
+
+function get_pessoas_habilidades(){
+    
+    nome_pessoa = document.getElementById("nome_pessoa_1").value;
+
+    if(nome_pessoa == ''){
+        document.getElementById('nome_pessoa_1').value = '';
+    document.getElementById("lista_pessoas_habilidades").innerHTML = '';
+    }else{
+    for(i=0;i<recebe_select_pessoas.length;i++){
+        if(nome_pessoa == recebe_select_pessoas[i]['pes_nome']){
+            cod_pessoa = recebe_select_pessoas[i]['pes_id']
+        }
+    }
+    xhrGetPessoasHabilidades= new XMLHttpRequest();
+    xhrGetPessoasHabilidades.open('GET', URLGETDISTRHABILIDADES, true);
+    xhrGetPessoasHabilidades.onreadystatechange = function(){
+        if(xhrGetPessoasHabilidades.readyState == 4){
+            if(xhrGetPessoasHabilidades.status == 200){
+                 
+               json_pessoas_habilidades = (JSON.parse(xhrGetPessoasHabilidades.responseText));
+               document.getElementById("lista_pessoas_habilidades").innerHTML = '';
+               for(i=0;i<json_pessoas_habilidades.length;i++){
+                    if(cod_pessoa == json_pessoas_habilidades[i]['fk_pes_id']){
+
+                        for(x = 0;x<recebe_select_habilidades.length;x++){
+                            if(recebe_select_habilidades[x]['hab_id'] == json_pessoas_habilidades[i]['fk_hab_id']){
+                        linha = "<label class='class_habilidades' id='pessoa_habilidade"+json_pessoas_habilidades[i]['pes_hab_id']+"'>"+recebe_select_habilidades[x]['hab_nome']+"<button id='btn_delHab"+json_pessoas_habilidades[i]['pes_hab_id']+"' onclick='deletePessoaHabilidade(this.id)'>X</button> </label>";
+                        document.getElementById("lista_pessoas_habilidades").innerHTML += linha;
+                            }
+                        }
+                    }
+                }
+            
+            }else if(xhrGetPessoasHabilidades.status == 404){
+
+            }
+        }      
+    }
+    xhrGetPessoasHabilidades.send();
+}
+}
+
+recebe_select_pessoas = [];
+recebe_select_habilidades = [];
+function selec_pessoas_habilidades(json_select_pessoas, json_select_habilidades){
+
+    if(json_select_pessoas != null){
+        recebe_select_pessoas = json_select_pessoas;
+    }
+
+    if(json_select_habilidades != null){
+        recebe_select_habilidades = json_select_habilidades;
+    }
+}
+
+function gravarPessoaHabilidade(){
+   
+
+    nome_Pessoa = document.getElementById('nome_pessoa').value;
+    nome_Habilidade = document.getElementById('seleciona_nome_habilidade').value;
+
+    
+    if(nome_Pessoa == ""){
+        alert("Por favor, selecione uma opção para Pessoa.");
+
+    }else if(nome_Habilidade == ""){
+        alert("Por favor, selecione uma opção para Habilidade.");
+    }else{
+
+    for(i=0;i<recebe_select_pessoas.length;i++){
+
+        if(nome_Pessoa == recebe_select_pessoas[i]['pes_nome']){
+            cod_pessoa = recebe_select_pessoas[i]['pes_id'];
+        }
+    }
+
+    for(i=0;i<recebe_select_habilidades.length;i++){
+
+         if(nome_Habilidade == recebe_select_habilidades[i]['hab_nome']){
+            cod_habilidade = recebe_select_habilidades[i]['hab_id'];
+        }
+    }
+
+    xhrGravarPessoaHabilidade = new XMLHttpRequest();
+    xhrGravarPessoaHabilidade.open('POST', URLGETDISTRHABILIDADES, true);
+    xhrGravarPessoaHabilidade.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhrGravarPessoaHabilidade.setRequestHeader("X-CSRFToken", csrftoken);
+    xhrGravarPessoaHabilidade.setRequestHeader("withCredentials", 'True');   
+    xhrGravarPessoaHabilidade.onreadystatechange = function(){
+        if(xhrGravarPessoaHabilidade.readyState == 4){
+            if(xhrGravarPessoaHabilidade.status == 201){
+                
+            }else if(xhrGravarPessoaHabilidade.status == 400){
+                alert("Pessoa já possui habilidade.");
+            }
+        }
+    }
+    xhrGravarPessoaHabilidade.send(JSON.stringify({
+        'fk_pes_id': cod_pessoa,
+        'fk_hab_id': cod_habilidade
+    }));
+
+    document.getElementById('nome_pessoa').value = '';
+    document.getElementById('seleciona_nome_habilidade').value = '';
+    }
+}
+
+function deletePessoaHabilidade(btn_id){
+  
+    novo_id = btn_id.substr(10);
+
+    
+
+    xhrDeletePessoaHabilidade = new XMLHttpRequest();
+    xhrDeletePessoaHabilidade.open('DELETE', URLGETDISTRHABILIDADES+novo_id, true);
+    xhrDeletePessoaHabilidade.onreadystatechange = function(){
+        if(xhrDeletePessoaHabilidade.readyState == 4){
+            if(xhrDeletePessoaHabilidade.status == 204){
+                get_pessoas_habilidades();
+            }
+        }
+    }
+    xhrDeletePessoaHabilidade.send();
+
+}
+
+
+function mostrarPessoasHabilidades(){
+    dialogCadastro = document.getElementById("cadastrados_pes_hab");
+    dialogPolyfill.registerDialog(dialogCadastro);
+    dialogCadastro.showModal();
+   
+}
+
+function fecharPessoasHabilidades(){
+    dialogCadastro.close();
+    dialogCadastro = document.getElementById("abreInclusaoHabilidades");
+    dialogPolyfill.registerDialog(dialogCadastro);
+
+    document.getElementById('nome_pessoa_1').value = '';
+    document.getElementById("lista_pessoas_habilidades").innerHTML = '';
+    document.getElementById('nome_pessoa').value = '';
+    document.getElementById('seleciona_nome_habilidade').value = '';
+    
 }
 
 /**///////////////////////////////////////////////////////////////////////////////////*/

@@ -151,15 +151,31 @@
                         <div id="InclusaoHabilidades">
                             <br><br><br>
                             <label id="lb_nome_pessoa">Selecione a pessoa: </label>
-                            <select id="nome_pessoa"></select>
+                            <select id="nome_pessoa" onselect="selectPessoas()">
+
+                            </select>
                             <br>
                             <br>
                             <label id="lb_seleciona_nome_habilidade">Selecione a habilidade: </label>
-                            <select id="seleciona_nome_habilidade"></select>
+                            <select id="seleciona_nome_habilidade" >
+
+                            </select>
                             <br><br><br>
-                            <button id="btn_gravarInclusao" type="submit" class="btn_shadow2" >Gravar</button>
-                            <button id="btn_mostrarInclusoesCadastradas" type="submit" class="btn_shadow2">Mostrar cadastrados</button>
+                            <button id="btn_gravarInclusao" type="submit" class="btn_shadow2" onclick="gravarPessoaHabilidade()">Gravar</button>
+                            <button id="btn_mostrarInclusoesCadastradas" type="submit" class="btn_shadow2" onclick="mostrarPessoasHabilidades()">Mostrar cadastrados</button>
                         </div>
+                        <dialog id="cadastrados_pes_hab" role="dialog" class="abreCadastro_1">
+                            <button id="btn_fechar_1_1" class="btn_shadow2" onclick="fecharPessoasHabilidades()">[X]Fechar</button>
+                            <br><br>
+                            <label id="lb_nome_pessoa_1">Selecione a pessoa: </label>
+                            <select id="nome_pessoa_1" onselect="selectPessoas()" onchange="get_pessoas_habilidades()">
+
+                            </select>
+                            <div id="lista_pessoas_habilidades">
+
+                            </div>
+
+                        </dialog>
             
             
                     </dialog>

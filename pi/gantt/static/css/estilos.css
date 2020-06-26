@@ -553,9 +553,32 @@
     margin-right: 30px;
 }
 #InclusaoHabilidades #btn_mostrarInclusoesCadastradas{
-    width: 100px;
-   
+    width: 140px;
+
 }
+
+#cadastrados_pes_hab #nome_pessoa_1{
+    margin-left: 20px;
+    width: 200px;
+}
+
+#cadastrados_pes_hab #lista_pessoas_habilidades{
+    width: 400px;
+    height: 300px;
+    margin-left: 10px;
+    margin-top: 10px;
+    overflow: auto;
+
+}
+
+#cadastrados_pes_hab #lista_pessoas_habilidades .class_habilidades{
+    margin-left: 20px;
+    margin-top: 15px;
+    display: inline-block;
+    font-family: monospace;
+}
+
+
 
 /*//////////////////////////////////////////*/
 
