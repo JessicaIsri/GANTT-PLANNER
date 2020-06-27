@@ -339,15 +339,16 @@
                 </select>                
                 <br><br>
                 
-               <label for="selecionaProjeto">Selecione o projeto:</label>
-                  <select id="listaProjetos" onselect="carregaDatalistProjetos()" onchange="carregaDatalistInterdependencia()">
+               <label for="listaProjetos">Selecione o projeto:</label>
+                  <select id="listaProjetos" disabled="true" onselect="carregaDatalistProjetos()" onchange="carregaDatalistInterdependencia()">
                       
                   </select>
                <br>
-               <label for="interdependencia">Interdependencia: </label>
-                  <select id="listaInterdependencia">
+               <label for="listaInterdependencia">Interdependencia: </label>
+                  <select id="listaInterdependencia" disabled="true">
                       
                   </select>
+
                <br>
                 <label for="nomeTarefa">Nome tarefa: <input autocomplete="off" id="nomeTarefa" readonly="true" type="text" name="trf_nometarefa"></label>
                <br>
@@ -387,19 +388,19 @@
                   <datalist id="listaProjetos_distribuicao">
                       
                   </datalist>
-                  <label id="id_prjDistr">0</label>
+                  <label hidden id="id_prjDistr">0</label>
                <br>
             <label for="listaTarefa">Selecione a Tarefa: <input autocomplete="off" disabled="true" id="listaTarefa" type="text" list="listaTarefa_distribuicao" name="fk_trf_id" onselect="dt_tarefas_distribuicao();" onblur="dt_tarefas_distribuicao();"  onfocus="dt_tarefas_distribuicao();" onclick="value=''"></label>
                   <datalist id="listaTarefa_distribuicao">
                       
                   </datalist>
-                  <label id="id_trfDistr">0</label>
+                  <label hidden id="id_trfDistr">0</label>
                <br>
             <label for="listaPessoa">Selecione a Pessoa: <input autocomplete="off" disabled="true" id="listaPessoa" type="text" list="listaPessoa_distribuicao" name="fk_pes_id" onselect="dt_pessoas_distribuicao();" onblur="dt_pessoas_distribuicao();" onfocus="dt_pessoas_distribuicao();" onclick="value=''"></label>
                   <datalist id="listaPessoa_distribuicao">
                       
                   </datalist>
-                  <label id="id_pesDistr">0</label>
+                  <label hidden id="id_pesDistr">0</label>
                <br>
                <button id="btn_novadistribuicao" type="submit" class="btn_shadow2" onclick="novaDistribuicao()">Novo</button>       
                <button id="btn_salvardistribuicao" type="submit" class="btn_shadow2" onclick="postDistribuicao()">Gravar</button>
