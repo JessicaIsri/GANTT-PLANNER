@@ -114,7 +114,7 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
 
         }
         //console.log("TASKS: "+tasks+""); //TESTE DE INTEGRIDADE
-        var gantt = new Gantt('#gantt', tasks, {
+         gantt = new Gantt('#gantt', tasks, {
             on_click: function (task) {
                 console.log(task);
             },
@@ -162,19 +162,22 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
 
 
 function periodo_dia(){
-    
+    gantt = new Gantt('#gantt', tasks);
     gantt.change_view_mode('Day'); // MUDANÇA DE PERÍODO PARA DIA
 }
 
 function periodo_semana(){
+    gantt = new Gantt('#gantt', tasks);
     gantt.change_view_mode('Week');// MUDANÇA DE PERÍODO PARA SEMANA
 }
 
 function periodo_mes(){
+    gantt = new Gantt('#gantt', tasks);
     gantt.change_view_mode('Month');// MUDANÇA DE PERÍODO PARA MÊS
 }
 
 function periodo_ano(){
+    gantt = new Gantt('#gantt', tasks);
     gantt.change_view_mode('Year');// MUDANÇA DE PERÍODO PARA ANO
 }
 
