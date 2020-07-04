@@ -12,6 +12,32 @@
 [Apresentação](https://www.youtube.com/watch?v=xsMU915KdhA&feature=youtu.be)
 <iframe width="560" height="315" src="https://www.youtube.com/embed/eVWRJgfRgmc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+**Vídeo de apresentação do Projeto (4ª Entrega)**
+
+[Apresentação](https://youtu.be/losLuFm8Eqk)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/eVWRJgfRgmc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Além dos itens que foram expostos na apresentação, vale ressaltar que foram feitos bem mais ações "por baixo dos panos", bem como: 
+- transformar o back-end em uma API;
+- Integração dos botões do front end e 
+- remodelação do banco de dados.
+
+
+**Vídeo de apresentação do Projeto (5ª Entrega)**
+
+[Apresentação](https://youtu.be/QbBc3mReSTo)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/eVWRJgfRgmc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Após a reunião com o Cadu, reavaliamos o que seria real prioridade e deixamos por não atender ao requisito 32. 
+- (REQ-32) Usuário pode escolher quais projetos e tarefas serão exibidos no gráfico de gantt
+
+Atendemos ao seguinte requisito além do que estava na sprint:
+- (REQ-25) Gerente pode gerar relatórios de pessoas com os seguintes dados: Horas livres, salário, carga horária, projetos e tarefas que participa/participou
+em um intervalo de tempo.
+
+**Para acessar o projeto em produção:** [Gantt Planner](https://pi-gantt-planner.herokuapp.com)
+
+
 
 **WIKI:** 
 
@@ -90,35 +116,27 @@ as seguintes informações básicas: id, nome e contato;
 
 **3ª ENTREGA**
 
-- (REQ-6) O Gerente pode incluir e excluir usuários para cada projeto (2 sprints);
-- (REQ-7) O Gerente pode incluir um usuário em uma ou mais tarefas se esse usuário fizer parte do projeto relacionado a tarefa (2 sprints);
+- (REQ-6) O Gerente pode incluir e excluir usuários para cada projeto através do django admin;
+- (REQ-7) O Gerente pode incluir um usuário em uma ou mais tarefas se esse usuário fizer parte do projeto relacionado a tarefa através do django admin;
 - (REQ-9) O Gerente pode criar, alterar, visualizar ou excluir um cadastro de projeto através de um menu;
 - (REQ-10) O Gerente pode criar, alterar, visualizar ou excluir um cadastro de tarefa através de um menu;
 - (REQ-11) O Gerente pode criar, alterar, visualizar ou excluir um cadastro de pessoa através de um menu;
-- (REQ-12) O Gerente e o usuário podem visualizar os projetos e tarefas por diferença de cor no gráfico de gantt (2 sprints);
-- (REQ-13) O Gerente pode fazer alterações na visualização do gráfico de forma dinâmica direto no gráfico de gantt. As seguintes alterações podem ser feitas:
-visualizar por período de dia, semana, mês ou ano, escolher quais projetos e tarefas serão exibidos, alterar o período, duração, data de inicio e fim
-de cada tarefa (2 sprints);
+- (REQ-12) O Gerente e o usuário podem cadastrar diferentes cores para os projetos para diferencia-los;;
 
 **4ª ENTREGA**
 
 - (REQ-5) O Gerente pode visualizar as tarefas de cada projeto. Cada tarefa deve estar atrelada a necessariamente um projeto;
-- (REQ-6) O Gerente pode incluir e excluir usuários para cada projeto (2 sprints);
-- (REQ-7) O Gerente pode incluir um usuário em uma ou mais tarefas se esse usuário fizer parte do projeto relacionado a tarefa (2 sprints);
+- (REQ-6) O Gerente pode incluir usuários para cada projeto através da interface;
+- (REQ-7) O Gerente pode incluir um usuário em uma ou mais tarefas se esse usuário fizer parte do projeto relacionado a tarefa;
 - (REQ-8) O Gerente e o Usuário podem visualizar quais pessoas fazem parte de cada projeto e tarefa diretamente no gráfico;
-- (REQ-12) O Gerente e o usuário podem visualizar os projetos e tarefas por diferença de cor no gráfico de gantt (2 sprints);
+- (REQ-12) O Gerente e o usuário podem visualizar diferentes cores para os projetos para diferencia-los;
+- (REQ-14) O Gerente e o Usuário podem salvar as alterações feitas no gráfico de gantt;
 - (REQ-13) O Gerente pode fazer alterações na visualização do gráfico de forma dinâmica direto no gráfico de gantt. As seguintes alterações podem ser feitas:
-visualizar por período de dia, semana, mês ou ano, escolher quais projetos e tarefas serão exibidos, alterar o período, duração, data de inicio e fim
-de cada tarefa (2 sprints);
-- (REQ-14) O Gerente e o Usuário podem salvar as alterações feitas no gráfico de gantt (2 sprints);
-- (REQ-15) O Gerente pode compartilhar uma imagem com os usuários através de um botão de compartilhamento;
-
+visualizar por período de dia, semana, mês ou ano, alterar o período, duração, data de inicio e fim
+de cada tarefa;
 
 **5ª ENTREGA**
 
-- (REQ-16) O Gerente pode criar novos gráficos através de um menu e alternar entre a visualização deles;
-- (REQ-17) O Gerente pode excluir gráficos através de uma lista de gráficos;
-- (REQ-18) O Gerente pode visualizar o histórico de alterações salvas de cada gráfico;
 - (REQ-19) O Gerente pode criar, alterar, visualizar ou excluir um cadastro de projeto. Cada cadastro de projeto deve conter além das informações básicas, 
 as seguintes informações: custo base, horas de desenvolvimento, pessoas(usuários), progresso e data final;
 - (REQ-20) O Gerente pode criar, alterar, visualizar ou excluir um cadastro de tarefas. Cada cadastro de projeto deve conter além das informações básicas, 
@@ -127,19 +145,17 @@ as seguintes informações: pessoas, dependencias (de outras tarefas),progresso 
 as seguintes informações: horas disponíveis, salário, férias, carga horária, habilidades, faltas;
 - (REQ-22) Gerente e Usuário podem pesquisar cadastros de Projetos, Tarefas e Pessoas;
 - (REQ-23) Gerente pode visualizar todas as pessoas com horas livres sem filtro, com filtro de projetos ou com filtro de tarefas em um intervalo de tempo;
+- (REQ-30) Usuário pode acessar aba de HELP para tirar dúvidas;
+- (REQ-31) Usuário pode reportar um erro
+
 
 **6ª ENTREGA (FINAL)**
 
-- (REQ-24) Gerente e Usuário podem visualizar uma escala "Nervouser", que é quando uma pessoa está a muitas horas em um projeto. Essa escala existe para
-que não haja problemas de motivação.
-- (REQ-25) Gerente pode gerar relatórios de pessoas com os seguintes dados: Horas livres, salário, carga horária, projetos e tarefas que participa/participou
-em um intervalo de tempo.
-- (REQ-26) Gerente pode gerar relatórios de Projetos com os seguintes dados: Horas trabalhadas por pessoa, progresso, prazos;
-- (REQ-27) Gerente pode subdividir uma tarefa em duas novas;
-- (REQ-28) Gerente pode baixar qualquer um dos relatórios;
-- (REQ-29) Usuários podem alterar um gráfico de gantt simultaneamente desde que pertença ao projeto em que vai alterar;
-- (REQ-30) Usuário pode acessar aba de HELP para tirar dúvidas;
-- (REQ-31) Usuário pode reportar um erro;
+- (REQ-16) O Gerente pode criar novos gráficos através de um menu e alternar entre a visualização deles;
+- (REQ-17) O Gerente pode excluir gráficos através de uma lista de gráficos;
+
+
+
 
 #### Diagrama de Casos de Uso
 
