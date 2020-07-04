@@ -74,6 +74,16 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
             recebe_tarefaGantt = jsonTarefasGantt;
         }
         
+        checked_project = [];
+        for(i=0;i<recebe_projetoGantt.length;i++){
+            
+            if(document.getElementById("cb_prj"+recebe_projetoGantt[i]['prj_id']+"").checked){
+                checked_project.push(recebe_projetoGantt[i]['prj_id']);
+            }
+        }
+         
+        
+        
         
 
         
@@ -86,6 +96,8 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
        // clearColorFill()
         
         for(i=0; i<recebe_projetoGantt.length;i++){
+            for(y=0;y<checked_project.length;y++){
+                if(checked_project[y] == recebe_projetoGantt[i]['prj_id']){
             createColorFill(recebe_projetoGantt[i]['prj_id'], recebe_projetoGantt[i]['prj_color'])
             for(x=0;x<recebe_tarefaGantt.length;x++){
                 if(recebe_tarefaGantt[x]['trf_id'] == recebe_tarefaGantt[x]['trf_interdependencia']){
@@ -99,6 +111,9 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
                 }
             }
         }
+        }
+    }
+    if(vetor_preparaProjetos != ''){
         tasks = []; //CRIA VETOR PARA RECEBER JSON
     
         for(i = 0; i< vetor_preparaProjetos.length;i++){ //FAZ A VARREDURA NO VETOR PARA CRIAR JSON
@@ -155,7 +170,7 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
 
         }
 }
-
+}
 /*MUDANÇA DE PREÍODOS GANTT*/
 
 // Quarter Day, Half Day, Day, Week, Month 
