@@ -83,7 +83,7 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
         if(recebe_projetoGantt != ''){
             if(recebe_tarefaGantt != ''){
                 
-        clearColorFill()
+       // clearColorFill()
         
         for(i=0; i<recebe_projetoGantt.length;i++){
             createColorFill(recebe_projetoGantt[i]['prj_id'], recebe_projetoGantt[i]['prj_color'])
