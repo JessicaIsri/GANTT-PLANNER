@@ -49,16 +49,6 @@ function ganttTarefas(){
    
 }
 
-function createColorFill(projectId, color) {
-    const style = document.createElement("style")
-    style.className = "colorFill"
-    style.innerHTML = `.tcolor-${projectId} .bar { fill: ${color}}`
-    document.head.appendChild(style)
-}
-
-function clearColorFill(){
-    document.querySelectorAll(".colorFill").forEach(document.head.removeChild)
-}
 
 recebe_projetoGantt = [];
 recebe_tarefaGantt = []
@@ -81,24 +71,20 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
                 checked_project.push(recebe_projetoGantt[i]['prj_id']);
             }
         }
-         
-        
-        
-        
-
-        
+           
         vetor_preparaProjetos = [];
         nomeInterdependencia = '';
 
         if(recebe_projetoGantt != ''){
             if(recebe_tarefaGantt != ''){
                 
-       // clearColorFill()
+       
         
         for(i=0; i<recebe_projetoGantt.length;i++){
             for(y=0;y<checked_project.length;y++){
                 if(checked_project[y] == recebe_projetoGantt[i]['prj_id']){
-            createColorFill(recebe_projetoGantt[i]['prj_id'], recebe_projetoGantt[i]['prj_color'])
+          
+            
             for(x=0;x<recebe_tarefaGantt.length;x++){
                 if(recebe_tarefaGantt[x]['trf_id'] == recebe_tarefaGantt[x]['trf_interdependencia']){
                     nomeInterdependencia = recebe_tarefaGantt[x]['trf_name'];
@@ -106,13 +92,14 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
 
                 if(recebe_tarefaGantt[x]['fk_prj_id'] == recebe_projetoGantt[i]['prj_id']){
                     
-                    linha = [recebe_tarefaGantt[x]['trf_id'], recebe_tarefaGantt[x]['trf_name'],recebe_tarefaGantt[x]['trf_datainicial'], recebe_tarefaGantt[x]['trf_datafinal'], recebe_tarefaGantt[x]['trf_interdependencia'] ];
+                    linha = [recebe_tarefaGantt[x]['trf_id'], recebe_tarefaGantt[x]['trf_name'],recebe_tarefaGantt[x]['trf_datainicial'], recebe_tarefaGantt[x]['trf_datafinal'], recebe_tarefaGantt[x]['trf_interdependencia'], recebe_projetoGantt[i]['prj_color'] ];
                     vetor_preparaProjetos.push(linha);
                 }
             }
         }
         }
     }
+    
     if(vetor_preparaProjetos != ''){
         tasks = []; //CRIA VETOR PARA RECEBER JSON
     
@@ -127,9 +114,10 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
                 'custom_class': 'tcolor-'+vetor_preparaProjetos[i][0]                     
             });
 
+            
         }
         //console.log("TASKS: "+tasks+""); //TESTE DE INTEGRIDADE
-         gantt = new Gantt('#gantt', tasks, {
+         gantt = new Gantt('#gantt', tasks, { 
             on_click: function (task) {
                 console.log(task);
             },
@@ -141,20 +129,7 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
                 tarefa.trf_datainicial = start.toISOString().split("T")[0]
                 tarefa.trf_datafinal = end.toISOString().split("T")[0]
                 putAtualizaTarefa(tarefa)
-                /*
-                JSON.stringify({
-                    "trf_id": codTarefa,
-                    "trf_name": nomeTarefa,
-                    "trf_datainicial": dt_inicioTarefa,
-                    "trf_datafinal": dt_finalTarefa,
-                    "trf_prazo": dt_prazoTarefa,
-                    "trf_interdependencia": cod_interdependencia_datalist,
-                    "trf_entregavel": entregavel,
-                    "trf_progresso": progressotarefa,
-                    "trf_color": "#000000",
-                    "fk_prj_id": cod_pessoa_datalist
-                }
-                */
+                
                 
             },
             on_progress_change: function(task, progress) {
@@ -164,12 +139,19 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
                 console.log(mode);
             }
         });
-       
 
+        document.getElementsByTagName('style').innerHTML = '';
+       for(i=0;i<vetor_preparaProjetos.length;i++){
+           console.log(vetor_preparaProjetos[i]);
+          linha = '.tcolor-'+vetor_preparaProjetos[i][0]+' .bar {fill: '+vetor_preparaProjetos[i][5]+'}';
+           document.querySelector('style').innerHTML += linha;         
+        }
+       
     }
 
-        }
+    }
 }
+
 }
 /*MUDANÇA DE PREÍODOS GANTT*/
 
@@ -179,6 +161,7 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
 function periodo_dia(){
     gantt = new Gantt('#gantt', tasks);
     gantt.change_view_mode('Day'); // MUDANÇA DE PERÍODO PARA DIA
+    
 }
 
 function periodo_semana(){
