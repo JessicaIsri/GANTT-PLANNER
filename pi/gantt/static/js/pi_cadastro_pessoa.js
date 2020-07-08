@@ -47,6 +47,7 @@ function getHabilidade(){
 
                     linha = "<label class='class_habilidades' id='habilidade"+json_habilidades[i]['hab_id']+"'>"+json_habilidades[i]['hab_nome']+" <button id='btn_delHab"+json_habilidades[i]['hab_id']+"' onclick='deleteHabilidade(this.id)'>X</button> </label>";
                    document.getElementById("lista_habilidades_cadastradas").innerHTML += linha;
+                   
                }
             
             }else if(xhrGetHabilidade.status == 404){
@@ -78,7 +79,7 @@ function gravarHabilidade(){
         if(xhrPostHabilidade.readyState == 4){
             if(xhrPostHabilidade.status == 201){
                 getHabilidade();
-                
+                alert("Habilidade cadastrada com sucesso!!");
             }
         }
     }
@@ -270,6 +271,7 @@ function gravarPessoaHabilidade(){
     xhrGravarPessoaHabilidade.onreadystatechange = function(){
         if(xhrGravarPessoaHabilidade.readyState == 4){
             if(xhrGravarPessoaHabilidade.status == 201){
+                alert("Cadastro efetuado com sucesso!!");
                 
             }else if(xhrGravarPessoaHabilidade.status == 400){
                 alert("Pessoa já possui habilidade.");
