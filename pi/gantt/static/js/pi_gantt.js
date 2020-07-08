@@ -38,7 +38,9 @@ function ganttTarefas(){
     xhrGetTarefa.onreadystatechange = function(){
         if(xhrGetTarefa.readyState == 4){
             if(xhrGetTarefa.status == 200){
-                jsonTarefasGantt = (JSON.parse(xhrGetTarefa.responseText));           
+                jsonTarefasGantt = (JSON.parse(xhrGetTarefa.responseText));  
+                ganttDistribuicao();
+                       
             }else if(xhrGetTarefa.status == 404){
             }
         }      
@@ -46,9 +48,61 @@ function ganttTarefas(){
         
     }
     xhrGetTarefa.send();
+    
    
 }
 
+function ganttDistribuicao(){
+    xhrGanttDistribuicao = new XMLHttpRequest();
+
+    xhrGanttDistribuicao.open('GET', URLGETDISTRIBUICAO, true);
+    xhrGanttDistribuicao.onreadystatechange = function(){
+        if(xhrGanttDistribuicao.readyState == 4){
+            if(xhrGanttDistribuicao.status == 200){
+                json_gantt_distribuicao = JSON.parse(xhrGanttDistribuicao.responseText);
+                ganttPessoas();  
+                select_distribuicao_gantt(json_gantt_distribuicao);
+            }
+        }
+    }
+
+    xhrGanttDistribuicao.send();
+
+}
+
+recebe_distribuicaoGantt = [];
+function select_distribuicao_gantt(json_gantt_distribuicao){
+    if(json_gantt_distribuicao != null){
+        recebe_distribuicaoGantt = json_gantt_distribuicao;
+    }
+    
+}
+
+
+function ganttPessoas(){
+    xhrGanttPessoas = new XMLHttpRequest();
+
+    xhrGanttPessoas.open('GET', URLGETPESSOAS, true);
+    xhrGanttPessoas.onreadystatechange = function(){
+        if(xhrGanttPessoas.readyState == 4){
+            if(xhrGanttPessoas.status == 200){
+                json_gantt_pessoas = JSON.parse(xhrGanttPessoas.responseText);
+
+                select_pessoas_gantt(json_gantt_pessoas);
+            }
+        }
+    }
+
+    xhrGanttPessoas.send();
+
+}
+
+recebe_pessoasGantt = [];
+function select_pessoas_gantt(json_gantt_pessoas){
+    if(json_gantt_pessoas != null){
+        recebe_pessoasGantt = json_gantt_pessoas;
+    }
+}
 
 recebe_projetoGantt = [];
 recebe_tarefaGantt = []
@@ -92,7 +146,7 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
 
                 if(recebe_tarefaGantt[x]['fk_prj_id'] == recebe_projetoGantt[i]['prj_id']){
                     
-                    linha = [recebe_tarefaGantt[x]['trf_id'], recebe_tarefaGantt[x]['trf_name'],recebe_tarefaGantt[x]['trf_datainicial'], recebe_tarefaGantt[x]['trf_datafinal'], recebe_tarefaGantt[x]['trf_interdependencia'], recebe_projetoGantt[i]['prj_color'] ];
+                    linha = [recebe_tarefaGantt[x]['trf_id'], recebe_tarefaGantt[x]['trf_name'],recebe_tarefaGantt[x]['trf_datainicial'], recebe_tarefaGantt[x]['trf_datafinal'], recebe_tarefaGantt[x]['trf_interdependencia'], recebe_tarefaGantt[x]['trf_progresso'], recebe_projetoGantt[i]['prj_color'] ];
                     vetor_preparaProjetos.push(linha);
                 }
             }
@@ -110,7 +164,7 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
                 'start': vetor_preparaProjetos[i][2],
                 'end': vetor_preparaProjetos[i][3],
                 'dependencies': 'Task'+vetor_preparaProjetos[i][4],
-                'progress': 20,       
+                'progress': vetor_preparaProjetos[i][5],       
                 'custom_class': 'tcolor-'+vetor_preparaProjetos[i][0]                     
             });
 
@@ -118,6 +172,7 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
         }
         //console.log("TASKS: "+tasks+""); //TESTE DE INTEGRIDADE
          gantt = new Gantt('#gantt', tasks, { 
+             
             on_click: function (task) {
                 console.log(task);
             },
@@ -137,13 +192,56 @@ function carregaGantt(jsonProjetosGantt, jsonTarefasGantt){
             },
             on_view_change: function(mode) {
                 console.log(mode);
-            }
+            },
+            custom_popup_html: function(task) {
+                // the task object will contain the updated
+                // dates and progress value
+                
+                //const end_date = task._end.format('MMM D');
+                nome_pessoa_gantt = '';
+                for(i=0;i<recebe_tarefaGantt.length;i++){
+                    if(task.name ==  recebe_tarefaGantt[i]['trf_name']){
+                        dt_final_tarefa = recebe_tarefaGantt[i]['trf_datafinal'];
+                        cod_tarefa_gantt = recebe_tarefaGantt[i]['trf_id'];
+                        for(x=0;x<recebe_distribuicaoGantt.length;x++){
+                            if(recebe_distribuicaoGantt[x]['fk_trf_id'] == cod_tarefa_gantt){
+                                cod_pessoa_gantt = recebe_distribuicaoGantt[x]['fk_pes_id'];
+                                
+                                for(y=0;y<recebe_pessoasGantt.length;y++){
+                                    if(cod_pessoa_gantt == recebe_pessoasGantt[y]['pes_id']){
+                                        nome_pessoa_gantt = recebe_pessoasGantt[y]['pes_nome'];
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+
+
+                    split_dt_final_tarefa = dt_final_tarefa.split('-');
+                reverse_dt_final_tarefa = split_dt_final_tarefa.reverse();
+                join_dt_final_tarefa = reverse_dt_final_tarefa.join('-');
+
+                
+                
+
+                return `
+                  <div class="details-container">
+                    <label>${task.name}</label>
+                    <p>Expected to finish by ${join_dt_final_tarefa}</p>
+                    <p>${task.progress}% completed!</p>
+                    <p>Pessoa: ${nome_pessoa_gantt} </p>
+                  </div>
+                `;
+              }
         });
 
+       
         document.getElementsByTagName('style').innerHTML = '';
        for(i=0;i<vetor_preparaProjetos.length;i++){
-           console.log(vetor_preparaProjetos[i]);
-          linha = '.tcolor-'+vetor_preparaProjetos[i][0]+' .bar {fill: '+vetor_preparaProjetos[i][5]+'}';
+           
+          linha = '.tcolor-'+vetor_preparaProjetos[i][0]+' .bar {fill: '+vetor_preparaProjetos[i][6]+'}';
            document.querySelector('style').innerHTML += linha;         
         }
        
