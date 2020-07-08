@@ -761,18 +761,11 @@
     width: 100px;
 }
 
-#cadastroPessoas #lb_faltas{
-    margin-left: 20px;
-}
-#cadastroPessoas #lb_horas_disponiveis{
-    margin-left: 20px;
-}
-
 #cadastroPessoas #faltas{
-    margin-left: 10px;
+    width: 30px;
 }
 #cadastroPessoas #horas_disponiveis{
-    margin-left: 10px;
+    width: 30px;
 }
 
 #cadastroPessoas #codAnteriorCadasPessoa{
