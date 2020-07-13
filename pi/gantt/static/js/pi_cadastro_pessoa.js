@@ -404,8 +404,8 @@ function postPessoa(){
         if(xhrPostPessoa.readyState == 4){
             if(xhrPostPessoa.status == 201){
                 getPessoa();
-                carregaTabelaPessoa();
-                console.log(json.length);
+                
+                
                 if((json.length+1) > 1){
                     habilitaRecuoCodPessoa();
                 }
@@ -496,8 +496,7 @@ function deletePessoa(){
     xhrDeletePessoa.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhrDeletePessoa.setRequestHeader("X-CSRFToken", csrftoken);
     xhrDeletePessoa.setRequestHeader("withCredentials", 'True');
-    vetor_pessoa = [];
-    xhrDeletePessoa.onload = function () {
+    xhrDeletePessoa.onreadystatechange = function () {
         if(xhrDeletePessoa.readyState == 4){
             if(xhrDeletePessoa.status == 204){
                 carregaTabelaPessoa();          
@@ -527,7 +526,7 @@ function clicaPessoas(){
     xhrAbrePessoa.setRequestHeader("X-CSRFToken", csrftoken);
     xhrAbrePessoa.setRequestHeader("withCredentials", 'True');
     xhrAbrePessoa.onreadystatechange = function(){
-        jsonCadasPessoa = [];
+        
         maiorvalor = 0;
         if(xhrAbrePessoa.readyState == 4){
             if(xhrAbrePessoa.status == 200){
@@ -654,9 +653,6 @@ function recuarCodPessoa(codAnterior){
                     vetor_pessoa.push(json[i]['pes_id']);
                     
                 }
-                
-                
-                 
                  menorvalor = vetor_pessoa[0];
                  for(i=0;i<vetor_pessoa.length;i++){
 
@@ -679,7 +675,7 @@ function recuarCodPessoa(codAnterior){
                     habilitaAvancoCodPessoa();
                 }
 
-               console.log(codAnterior);
+               
                
                //AÇÃO ABAIXO EM CONJUNTO COM O DELETE
                 ///codAnterior vindo da function DELETE
@@ -693,7 +689,7 @@ function recuarCodPessoa(codAnterior){
                         
                             document.getElementById('codPessoa').value = vetor_pessoa[0];
                             desabilitaAvancoCodPessoa();
-                            console.log(vetor_pessoa);
+                            
                             if(vetor_pessoa.length > 2){
                                 habilitaRecuoCodPessoa();
                             }
