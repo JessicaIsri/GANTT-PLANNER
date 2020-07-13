@@ -371,8 +371,8 @@ function getPessoa(){
         if(xhrGetPessoa.readyState == 4){
             if(xhrGetPessoa.status == 200){
                 preencheCamposCadasPessoa(JSON.parse(xhrGetPessoa.responseText));     
-                getPessoas_paramenupessoas();
-                
+              
+
             
             }else if(xhrGetPessoa.status == 404){
 
@@ -400,11 +400,15 @@ function postPessoa(){
     xhrPostPessoa.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhrPostPessoa.setRequestHeader("X-CSRFToken", csrftoken);
     xhrPostPessoa.setRequestHeader("withCredentials", 'True');    
-    xhrPostPessoa.onload = function(){
+    xhrPostPessoa.onreadystatechange = function(){
         if(xhrPostPessoa.readyState == 4){
             if(xhrPostPessoa.status == 201){
                 getPessoa();
                 carregaTabelaPessoa();
+                console.log(json.length);
+                if((json.length+1) > 1){
+                    habilitaRecuoCodPessoa();
+                }
             }
         }
     }
@@ -423,7 +427,8 @@ function postPessoa(){
     habilitaBtnNovaPessoa();
     desabilitaBtnGravaPessoa();
     desabilitaBtnCancelarPessoa();
-    habilitaRecuoCodPessoa();
+    
+    
     habilitaBtnExcluirPessoa();
     habilitaBtnAtualizarPessoa();
 }
@@ -500,7 +505,7 @@ function deletePessoa(){
         }  
     }
     xhrDeletePessoa.send();
-    recuarCodPessoa();   
+    recuarCodPessoa(codPessoa);   
 
 }
 
@@ -516,7 +521,7 @@ function clicaPessoas(){
     dialogCadastro.showModal();
  
    
-
+    
     xhrAbrePessoa = new XMLHttpRequest();
     xhrAbrePessoa.open('GET', URLGETPESSOAS, true);
     xhrAbrePessoa.setRequestHeader("X-CSRFToken", csrftoken);
@@ -531,7 +536,8 @@ function clicaPessoas(){
                 for(i = 0; i<json.length;i++){
                    if(json[i]['pes_id'] > maiorvalor ){
                         maiorvalor = json[i]['pes_id'];
-                    }              
+                    }     
+                    
                 }
                 
                 if(maiorvalor == 0){
@@ -546,31 +552,23 @@ function clicaPessoas(){
                     desabilitaCamposPessoa();
                     desabilitaRecuoCodPessoa();
                 }else{
-                    document.getElementById("codPessoa").value = maiorvalor;
-                    habilitaRecuoCodPessoa();
+                    if(json.length == 1){
+                        desabilitaAvancoCodPessoa();
+                        desabilitaRecuoCodPessoa();
+                    }else{
+                        habilitaRecuoCodPessoa();
+                    }
+                    document.getElementById('codPessoa').value = maiorvalor;
                     getPessoa();
-                }
-
-               
-            }else if(xhrAbrePessoa.status == 404){}
-
-            
-        }
-        
-    }
-    
-    
+                }              
+            }else if(xhrAbrePessoa.status == 404){}    
+        }    
+    }  
     xhrAbrePessoa.send();
-   
-   
-
-    habilitaAvancoCodPessoa();
-    habilitaRecuoCodPessoa();
     desabilitaBtnCancelarPessoa();
     habilitaBtnNovaPessoa();
     desabilitaBtnGravaPessoa();
     desabilitaAvancoCodPessoa();
-    
     carregaTabelaPessoa();
   
 }
@@ -609,8 +607,9 @@ function novaPessoa(){
         }
         document.getElementById("codPessoa").value = codPessoa;
     }
-    }
     xhrNovaPessoa.send();
+    }
+    
     
     habilitaCamposPessoa();
     habilitaBtnCancelarPessoa();
@@ -639,7 +638,7 @@ function cancelarCadasPessoa(){
     habilitaBtnAtualizarPessoa();
 }
 
-function recuarCodPessoa(){ 
+function recuarCodPessoa(codAnterior){ 
  
     
     codPessoa = parseInt(document.getElementById("codPessoa").value);
@@ -658,33 +657,76 @@ function recuarCodPessoa(){
                 
                 
                  
-                 menorvalor = vetor_pessoa.length;
+                 menorvalor = vetor_pessoa[0];
                  for(i=0;i<vetor_pessoa.length;i++){
 
                     if(codPessoa == vetor_pessoa[i]){
                     codPessoa = vetor_pessoa[i-1];
-                 }
-                 if(vetor_pessoa[i] < menorvalor){
-                    menorvalor = vetor_pessoa[i]; 
-                }    
-
-                
+                    }              
                 }
                    
                    
-                      document.getElementById("codPessoa").value = codPessoa; 
+                document.getElementById("codPessoa").value = codPessoa; 
                       
+                
                 
                 if(codPessoa == menorvalor){
                     desabilitaRecuoCodPessoa();
+                    
                 }
 
-               
-                
-                
-                habilitaAvancoCodPessoa();
+                if(vetor_pessoa.length > 1){
+                    habilitaAvancoCodPessoa();
+                }
 
-                getPessoa();
+               console.log(codAnterior);
+               
+               //AÇÃO ABAIXO EM CONJUNTO COM O DELETE
+                ///codAnterior vindo da function DELETE
+                vetor_pessoa.reverse();
+                if(codAnterior != undefined){
+                    if(codAnterior == vetor_pessoa[0] && vetor_pessoa.length == 1){
+
+                        document.getElementById('codPessoa').value = 0;
+                    }else{
+                        if(codAnterior == menorvalor){
+                        
+                            document.getElementById('codPessoa').value = vetor_pessoa[0];
+                            desabilitaAvancoCodPessoa();
+                            console.log(vetor_pessoa);
+                            if(vetor_pessoa.length > 2){
+                                habilitaRecuoCodPessoa();
+                            }
+                            
+                        }else{
+                        for(i=0;i<vetor_pessoa.length;i++){
+                            if(codAnterior == vetor_pessoa[i]){
+                                vetor_pessoa.splice(i,1);
+                                
+                                qtd_length = vetor_pessoa.length;
+                                if(codPessoa == vetor_pessoa[0]){
+                                    desabilitaAvancoCodPessoa();
+                                }else{
+                                    habilitaAvancoCodPessoa();
+                                }
+                                
+                            }else{
+                                habilitaAvancoCodPessoa();
+                            }
+    
+                        }
+                    }
+                    }
+                    
+                }
+            
+                if(document.getElementById('codPessoa').value == 0){
+                    limparCamposCadasPessoa();
+                    desabilitaCamposPessoa();
+                }else{
+                    getPessoa();
+                }
+                
                 
             }else if(xhrRecuarCod.status == 404){ }
         
@@ -727,10 +769,13 @@ function avancarCodPessoa(){
 
                 }
                    
-                      document.getElementById("codPessoa").value = codPessoa;   
+                document.getElementById("codPessoa").value = codPessoa;
+                
+                
                 if(codPessoa == maiorvalor){
                     desabilitaAvancoCodPessoa();
                 }
+
                 habilitaRecuoCodPessoa();
                 getPessoa();
                 }else if(xhrAvancarPessoa.status == 404){ }
@@ -780,13 +825,11 @@ function desabilitaAvancoCodPessoa(){
 }
 
 function habilitaRecuoCodPessoa(){
-   
-   if(document.getElementById("codPessoa").value > 1){ 
-       document.getElementById("codAnteriorCadasPessoa").disabled = false;
+     
+    document.getElementById("codAnteriorCadasPessoa").disabled = false;
     mudaBotao =  document.getElementById("codAnteriorCadasPessoa");
     mudaBotao.style.backgroundColor = "#698FEB";
      
-}
 }
 
 function habilitaAvancoCodPessoa(){
