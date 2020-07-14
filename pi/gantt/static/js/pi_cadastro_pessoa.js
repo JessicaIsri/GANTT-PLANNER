@@ -93,7 +93,7 @@ function gravarHabilidade(){
 
 
 function deleteHabilidade(btn_id_hab){
-    console.log(btn_id_hab);
+    
     novo_id = btn_id_hab.substr(10);
 
     
@@ -335,7 +335,6 @@ function fecharPessoasHabilidades(){
 /*GET AND POST - API*////////////////////////////////////////////////////////////////////
 
 
-
 function preencheCamposCadasPessoa(json){
     document.getElementById("nomePessoa").value = json.pes_nome; 
     document.getElementById("contato").value = json.pes_contato;
@@ -371,15 +370,20 @@ function getPessoa(){
         if(xhrGetPessoa.readyState == 4){
             if(xhrGetPessoa.status == 200){
                 preencheCamposCadasPessoa(JSON.parse(xhrGetPessoa.responseText));     
-              
+                
+                
+                
+
 
             
             }else if(xhrGetPessoa.status == 404){
 
             }
-        }      
+        }
+        
     }
     xhrGetPessoa.send();
+    
    }
 }
 
@@ -428,7 +432,7 @@ function postPessoa(){
     desabilitaBtnGravaPessoa();
     desabilitaBtnCancelarPessoa();
     
-    
+    carregaTabelaPessoa();
     habilitaBtnExcluirPessoa();
     habilitaBtnAtualizarPessoa();
 }
@@ -671,11 +675,13 @@ function recuarCodPessoa(codAnterior){
                     
                 }
 
+                
+               
+
                 if(vetor_pessoa.length > 1){
+                    
                     habilitaAvancoCodPessoa();
                 }
-
-               
                
                //AÇÃO ABAIXO EM CONJUNTO COM O DELETE
                 ///codAnterior vindo da function DELETE
@@ -685,6 +691,7 @@ function recuarCodPessoa(codAnterior){
 
                         document.getElementById('codPessoa').value = 0;
                     }else{
+                        
                         if(codAnterior == menorvalor){
                         
                             document.getElementById('codPessoa').value = vetor_pessoa[0];
@@ -695,21 +702,13 @@ function recuarCodPessoa(codAnterior){
                             }
                             
                         }else{
-                        for(i=0;i<vetor_pessoa.length;i++){
-                            if(codAnterior == vetor_pessoa[i]){
+                         for(i=0;i<vetor_pessoa.length;i++){
+                            if(codAnterior == vetor_pessoa[0]){
                                 vetor_pessoa.splice(i,1);
-                                
-                                qtd_length = vetor_pessoa.length;
                                 if(codPessoa == vetor_pessoa[0]){
                                     desabilitaAvancoCodPessoa();
-                                }else{
-                                    habilitaAvancoCodPessoa();
-                                }
-                                
-                            }else{
-                                habilitaAvancoCodPessoa();
-                            }
-    
+                                }                               
+                            }   
                         }
                     }
                     }
@@ -805,11 +804,8 @@ function habilitaBtnAtualizarPessoa(){
 
 function desabilitaRecuoCodPessoa(){
         document.getElementById("codAnteriorCadasPessoa").disabled = true;
-     
        mudaBotao =  document.getElementById("codAnteriorCadasPessoa");
         mudaBotao.style.backgroundColor = "gray";
-
-    
 }
 
 function desabilitaAvancoCodPessoa(){

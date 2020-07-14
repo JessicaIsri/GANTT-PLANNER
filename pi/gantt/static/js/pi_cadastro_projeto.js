@@ -113,9 +113,9 @@ function postProjeto(){
             if(xhrPostProjeto.status == 201){
                 
                 getProjeto();
+                carregaTabelaProjeto();
                 
                 
-                console.log(json);
                 if((json.length+1) > 1){
                     habilitaRecuoCodProjeto();
                 }
@@ -411,6 +411,7 @@ function recuarCodProjeto(codAnterior){
 
                         document.getElementById('codProjeto').value = 0;
                     }else{
+                        
                         if(codAnterior == menorvalor){
                         
                             document.getElementById('codProjeto').value = vetor_projeto[0];
@@ -421,21 +422,15 @@ function recuarCodProjeto(codAnterior){
                             }
                             
                         }else{
-                        for(i=0;i<vetor_projeto.length;i++){
-                            if(codAnterior == vetor_projeto[i]){
+                        
+                         for(i=0;i<vetor_projeto.length;i++){
+                            if(codAnterior == vetor_projeto[0]){
                                 vetor_projeto.splice(i,1);
                                 
-                                qtd_length = vetor_projeto.length;
                                 if(codProjeto == vetor_projeto[0]){
                                     desabilitaAvancoCodProjeto();
-                                }else{
-                                    habilitaAvancoCodProjeto();
-                                }
-                                
-                            }else{
-                                habilitaAvancoCodProjeto();
-                            }
-    
+                                }                               
+                            }   
                         }
                     }
                     }

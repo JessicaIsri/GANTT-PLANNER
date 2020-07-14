@@ -66,7 +66,7 @@ function carregaDatalistInterdependencia(){
             document.getElementById("listaInterdependencia").innerHTML += linhaOption;
             
                 for(i=0;i<json_datalist_interdependencia.length;i++){
-                    console.log(json_datalist_interdependencia);
+                    
                     if(cod_projeto_datalist == json_datalist_interdependencia[i]['fk_prj_id']){
                         
                     linhaOption = "<option>"+json_datalist_interdependencia[i]['trf_name']+"</option>"
@@ -339,8 +339,7 @@ function putTarefa(){
                     cod_interdependencia_datalist = 0;
                 }
             }
-            console.log(cod_interdependencia_datalist);
-            console.log(cod_Tarefa_datalist);
+            
 
             xhrPutTarefa = new XMLHttpRequest();
         
@@ -607,6 +606,7 @@ function recuarCodTarefa(codAnterior){
 
                         document.getElementById('codTarefa').value = 0;
                     }else{
+                        
                         if(codAnterior == menorvalor){
                         
                             document.getElementById('codTarefa').value = vetor_tarefa[0];
@@ -617,21 +617,14 @@ function recuarCodTarefa(codAnterior){
                             }
                             
                         }else{
-                        for(i=0;i<vetor_tarefa.length;i++){
-                            if(codAnterior == vetor_tarefa[i]){
+                         for(i=0;i<vetor_tarefa.length;i++){
+                            if(codAnterior == vetor_tarefa[0]){
                                 vetor_tarefa.splice(i,1);
                                 
-                                qtd_length = vetor_tarefa.length;
                                 if(codTarefa == vetor_tarefa[0]){
                                     desabilitaAvancoCodTarefa();
-                                }else{
-                                    habilitaAvancoCodTarefa();
-                                }
-                                
-                            }else{
-                                habilitaAvancoCodTarefa();
-                            }
-    
+                                }                               
+                            }   
                         }
                     }
                     }
