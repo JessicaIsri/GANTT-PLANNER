@@ -30,6 +30,7 @@ Junto a isso temos as aplicações das 3 Formas Normais, sendo elas:
 
 # Aprendizados Efetivos
 Como aprendizado efetivo, posso destacar o correto uso das formas normais para a modelagem correta do banco de dados. Os levantamentos de informações necessários para que o banco seja capaz de atender demanda exigida pelo conceito da aplicação e pela aplicação em si. Logo é preciso definir quais serão as informações a serem armazenadas, o nivél de detalhamento, as relações entre si e o uso das mesmas. Assim dessa maneira sendo possível o desenvolvimento dos scripts de criação do banco embasado no que foi anteriormente planejado.
+Para além disso a priorização e levantamento de requisitos, representam a base de qualquer projeto, pois com essas informações é possivél basear não só o banco de dados mas toda a aplicação
 
 
 
